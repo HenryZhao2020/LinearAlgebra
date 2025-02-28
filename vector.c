@@ -18,6 +18,22 @@ void print_vec(const struct vector *vec) {
   }
 }
 
+bool equal_vec(const struct vector *v1, const struct vector *v2) {
+  assert(is_vec_valid(v1));
+  assert(is_vec_valid(v2));
+
+  if (v1->n != v2->n) {
+    return false;
+  }
+
+  for (int i = 0; i < v1->n; ++i) {
+    if (v1->comp[i] != v2->comp[i]) {
+      return false;
+    }
+  }
+  return true;
+}
+
 struct vector vec_add(const struct vector *v1, const struct vector *v2) {
   assert(is_vec_valid(v1));
   assert(is_vec_valid(v2));

@@ -11,14 +11,15 @@ struct vector {
   int comp[100];   // Components of a vector
 };
 
-// equal_vec(v1, v2) produces true if v1 and v2 are equal and false otherwise.
-// requires: v1 and v2 are valid vectors
-bool equal_vec(const struct vector *v1, const struct vector *v2);
-
 // print_vec(vec) outputs vec in a column.
 // requires: vec is a valid vector
 // effects: produces output
 void print_vec(const struct vector *vec);
+
+
+// equal_vec(v1, v2) produces true if v1 and v2 are equal and false otherwise.
+// requires: v1 and v2 are valid vectors
+bool equal_vec(const struct vector *v1, const struct vector *v2);
 
 // vec_add(v1, v2) computes the addition of v1 and v2.
 // requires: v1 and v2 are valid vectors
