@@ -1,8 +1,11 @@
+// "vector.h" contains the vector structure and basic vector operations.
+
 #ifndef VECTOR_H
 #define VECTOR_H
 
 #include <stdbool.h>
 
+// Limits on the dimension of a vector
 extern const int min_n;
 extern const int max_n;
 
@@ -10,12 +13,12 @@ struct vector {
   int n;           // Dimension in Rn, n <= 100
   int comp[100];   // Components of a vector
 };
+// requires: min_n <= n <= max_n
 
 // print_vec(vec) outputs vec in a column.
 // requires: vec is a valid vector
 // effects: produces output
 void print_vec(const struct vector *vec);
-
 
 // equal_vec(v1, v2) produces true if v1 and v2 are equal and false otherwise.
 // requires: v1 and v2 are valid vectors
