@@ -1,7 +1,6 @@
 #include "vector.h"
 
 #include <stdio.h>
-#include <stdbool.h>
 #include <assert.h>
 
 const int min_n = 0;
