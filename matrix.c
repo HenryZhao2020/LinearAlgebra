@@ -1,4 +1,5 @@
 #include "matrix.h"
+#include "integer.h"
 
 #include <stdio.h>
 #include <assert.h>
@@ -16,11 +17,22 @@ bool is_matrix_valid(const struct matrix *mat) {
 void print_matrix(const struct matrix *mat) {
   assert(is_matrix_valid(mat));
 
+  int max_len = 0;
+  for (int i = 0; i < mat->rows * mat->cols; ++i) {
+    int len = numlen(mat->table[i]);
+    if (len > max_len) {
+      max_len = len;
+    }
+  }
+
   for (int r = 0; r < mat->rows; ++r) {
-    printf("|\t");
+    printf("| ");
     for (int c = 0; c < mat->cols; ++c) {
-      int index = r * mat->cols + c;
-      printf("%d\t", mat->table[index]);
+      int i = r * mat->cols + c;
+      int space = max_len - numlen(mat->table[i]);
+      for (int j = 0; j < space / 2; ++j) printf(" ");
+      printf("%d", mat->table[i]);
+      for (int j = space / 2; j <= space; ++j) printf(" ");
     }
     printf("|\n");
   }
