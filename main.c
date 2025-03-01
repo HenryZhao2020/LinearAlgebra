@@ -5,7 +5,7 @@
 #include <string.h>
 #include <assert.h>
 
-const int cmd_max_len = 5;
+const int cmd_max_len = 10;
 
 // read_vec(vec, var) reads the dimension n and the components of a vector.  
 //   If the input is valid, it updates vec and returns true.  
