@@ -7,7 +7,8 @@ const int min_n = 0;
 const int max_n = 100;
 
 bool is_vec_valid(const struct vector *vec) {
-  return vec && (vec->n >= min_n) && (vec->n <= max_n);
+  return vec && 
+         (vec->n >= min_n && vec->n <= max_n);
 }
 
 void print_vec(const struct vector *vec) {
@@ -37,6 +38,13 @@ bool equal_vec(const struct vector *v1, const struct vector *v2) {
     }
   }
   return true;
+}
+
+int vec_at(const struct vector *vec, int i) {
+  assert(is_vec_valid(vec));
+  assert(i >= 0 && i <= vec->n);
+
+  return vec->comp[i];
 }
 
 struct vector vec_add(const struct vector *v1, const struct vector *v2) {
