@@ -10,13 +10,15 @@
 const char *cmd_chart[] = {
   "exit",     "Terminate the program",
   "help",     "View program manual",
-  "vec",      "Define a vector",
-  "vadd",     "Perform vector addition",
-  "vsmult",   "Perform vector scalar multiplication",
-  "stdbas",   "Determine the standard basis of Rn",
+  // ------------vector------------
+  "vadd",     "Perform addition of two vectors",
+  "vsmult",   "Perform scalar multiplication of a vector",
   "dot",      "Compute the dot product of two vectors in Rn",
   "cross",    "Compute the cross product of two vectors in R3",
-  "vlen",     "Determine the length (norm) of a vector"
+  "vlen",     "Determine the length (norm) of a vector",
+  "vang",     "Determine the angle between two vectors in radians",
+  // ------------matrix------------
+  "stdbas",   "Determine the standard basis of Rn",
 };
 
 // read_vec_comp(vec, n, var) reads the components of vec in Rn.
@@ -72,10 +74,10 @@ bool read_vec(struct vector *vec, const char *var) {
   return true;
 }
 
-// exec_vec_add() produces the result of adding two vectors.
+// exec_vadd() performs addition of two vectors.
 //   The function produces true if the operation is successful and false otherwise.
 // effects: reads input, produces output
-bool exec_vec_add() {
+bool exec_vadd() {
   struct vector v1 = {0, {0}};
   struct vector v2 = {0, {0}};
 
@@ -100,10 +102,10 @@ bool exec_vec_add() {
   return true;
 }
 
-// exec_vec_scalar_mult() produces the result of scalar vector multiplication.
+// exec_vsmult() performs scalar multiplication of a vector.
 //   The function produces true if the operation is successful and false otherwise.
 // effects: reads input, produces output
-bool exec_vec_scalar_mult() {
+bool exec_vsmult() {
   struct vector vec = {0, {0}};
   if (!read_vec(&vec, "v")) {
     return false;
@@ -129,27 +131,10 @@ bool exec_vec_scalar_mult() {
   return true;
 }
 
-// exec_std_basis() produces the standard basis for Rn.
+// exec_dot() computes the dot product of two vectors in Rn.
 //   The function produces true if the operation is successful and false otherwise.
 // effects: reads input, produces output
-bool exec_std_basis() {
-  int n = 0;
-  printf("Dimension: ");
-  if (1 != scanf("%d", &n)) {
-    return false;
-  }
-
-  struct matrix basis = std_basis(n);
-  printf("Standard basis for R%d\n", n);
-  print_matrix(&basis);
-
-  return true;
-}
-
-// exec_dot_product() produces the dot product of two vectors.
-//   The function produces true if the operation is successful and false otherwise.
-// effects: reads input, produces output
-bool exec_dot_product() {
+bool exec_dot() {
   struct vector v1 = {0, {0}};
   struct vector v2 = {0, {0}};
 
@@ -168,10 +153,10 @@ bool exec_dot_product() {
   return true;
 }
 
-// exec_cross_product() produces the cross product of two vectors.
+// exec_cross() computes the cross product of two vectors in R3.
 //   The function produces true if the operation is successful and false otherwise.
 // effects: reads input, produces output
-bool exec_cross_product() {
+bool exec_cross() {
   struct vector v1 = {3, {0}};
   struct vector v2 = {3, {0}};
 
@@ -191,18 +176,57 @@ bool exec_cross_product() {
   return true;
 }
 
-// exec_vec_len() produces the length (norm) of a vector.
+// exec_vlen() determines the length (norm) of a vector.
 //   The function produces true if the operation is successful and false otherwise.
 // effects: reads input, produces output
-bool exec_vec_len() {
+bool exec_vlen() {
   struct vector vec = {0, {0}};
   if (!read_vec(&vec, "v")) {
     return false;
   }
   printf("\n");
 
-  int len = vec_len(&vec);
-  printf("Length (norm) of v: %d\n", len);
+  double len = vec_len(&vec);
+  printf("Length (norm) of v is: %g\n", len);
+
+  return true;
+}
+
+// exec_vang() determines the angle between two vectors in radians.
+//   The function produces true if the operation is successful and false otherwise.
+// effects: reads input, produces output
+bool exec_vang() {
+  struct vector v1 = {0, {0}};
+  struct vector v2 = {0, {0}};
+
+  if (!read_vec(&v1, "v1")) {
+    return false;
+  }
+  printf("\n");
+  if (!read_vec(&v2, "v2")) {
+    return false;
+  }
+  printf("\n");
+
+  double ang = vec_angle(&v1, &v2);
+  printf("Angle between v1 and v2 in radians is: %g\n", ang);
+
+  return true;
+}
+
+// exec_stdbas() determines the standard basis for Rn.
+//   The function produces true if the operation is successful and false otherwise.
+// effects: reads input, produces output
+bool exec_stdbas() {
+  int n = 0;
+  printf("Dimension: ");
+  if (1 != scanf("%d", &n)) {
+    return false;
+  }
+
+  struct matrix basis = std_basis(n);
+  printf("Standard basis for R%d\n", n);
+  print_matrix(&basis);
 
   return true;
 }
@@ -249,17 +273,19 @@ int main(void) {
     } else if (!strcmp(cmd, "help")) {
       help();
     } else if (!strcmp(cmd, "vadd")) {
-      exec_vec_add();
+      exec_vadd();
     } else if (!strcmp(cmd, "vsmult")) {
-      exec_vec_scalar_mult();
-    } else if (!strcmp(cmd, "stdbas")) {
-      exec_std_basis();
+      exec_vsmult();
     } else if (!strcmp(cmd, "dot")) {
-      exec_dot_product();
+      exec_dot();
     } else if (!strcmp(cmd, "cross")) {
-      exec_cross_product();
+      exec_cross();
     } else if (!strcmp(cmd, "vlen")) {
-      exec_vec_len();
+      exec_vlen();
+    } else if (!strcmp(cmd, "vang")) {
+      exec_vang();
+    } else if (!strcmp(cmd, "stdbas")) {
+      exec_stdbas();
     } else {
       printf("Invalid command! Please enter 'help' to see the program manual.\n");
     }
