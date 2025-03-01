@@ -41,4 +41,16 @@ struct vector vec_add(const struct vector *v1, const struct vector *v2);
 // requires: vec is a valid vector
 struct vector vec_scalar_mult(const struct vector *vec, int c);
 
+// dot_product(v1, v2) produces the dot product of v1 and v2.
+// requires: v1 and v2 are valid vectors and belong to the same Rn
+int dot_product(const struct vector *v1, const struct vector *v2);
+
+// cross_product(v1, v2) produces the cross product of v1 and v2.
+// requires: v1 and v2 are valid vectors and both belong to R3
+struct vector cross_product(const struct vector *v1, const struct vector *v2);
+
+// vec_len(vec) produces the length (norm) of vec.
+// requires: vec is a valid vector
+int vec_len(const struct vector *vec);
+
 #endif
