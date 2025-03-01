@@ -1,4 +1,4 @@
-// "basis.h" contains functions that determine the basis for a set of vectors.
+// "basis.h" provides functions about the basis for a set of vectors.
 
 #ifndef BASIS_H
 #define BASIS_H

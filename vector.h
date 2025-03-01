@@ -1,4 +1,4 @@
-// "vector.h" contains the vector structure and basic vector operations.
+// "vector.h" provides the vector structure and vector operations.
 
 #ifndef VECTOR_H
 #define VECTOR_H
@@ -29,7 +29,7 @@ bool equal_vec(const struct vector *v1, const struct vector *v2);
 
 // vec_at(vec, i) produces the i-th component of vec.
 // requires: vec is a valid vector.
-//           0 <= i <= vec->n
+//           1 <= i <= vec->n
 int vec_at(const struct vector *vec, int i);
 
 // vec_add(v1, v2) computes the addition of v1 and v2.

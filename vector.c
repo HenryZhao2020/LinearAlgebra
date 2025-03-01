@@ -54,9 +54,9 @@ bool equal_vec(const struct vector *v1, const struct vector *v2) {
 
 int vec_at(const struct vector *vec, int i) {
   assert(is_vec_valid(vec));
-  assert(i >= 0 && i <= vec->n);
+  assert(i >= 1 && i <= vec->n);
 
-  return vec->comp[i];
+  return vec->comp[i - 1];
 }
 
 struct vector vec_add(const struct vector *v1, const struct vector *v2) {

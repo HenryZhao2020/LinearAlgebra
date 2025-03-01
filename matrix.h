@@ -1,4 +1,4 @@
-// "matrix.h" contains the matrix structure and basic matrix operations.
+// "matrix.h" provides the matrix structure and matrix operations.
 
 #ifndef MATRIX_H
 #define MATRIX_H
