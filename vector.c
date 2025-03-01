@@ -11,17 +11,28 @@ bool is_vec_valid(const struct vector *vec) {
          (vec->n >= min_n && vec->n <= max_n);
 }
 
-void print_vec(const struct vector *vec) {
+int print_vec(const struct vector *vec) {
   assert(is_vec_valid(vec));
 
-  printf("(");
+  int num_lens[100] = {0};
+  int max_len = 0;
   for (int i = 0; i < vec->n; ++i) {
-    if (i > 0) {
-      printf(",");
+    num_lens[i] = snprintf(NULL, 0, "%d", vec->comp[i]);
+    if (num_lens[i] > max_len) {
+      max_len = num_lens[i];
     }
-    printf("%d", vec->comp[i]);
   }
-  printf(")");
+
+  for (int i = 0; i < vec->n; ++i) {
+    int space = max_len - num_lens[i];
+    printf("|");
+    for (int j = 0; j < space / 2; ++j) printf(" ");
+    printf("%d", vec->comp[i]);
+    for (int j = space / 2; j < space; ++j) printf(" ");
+    printf("|\n");
+  }
+
+  return max_len;
 }
 
 bool equal_vec(const struct vector *v1, const struct vector *v2) {
@@ -59,7 +70,7 @@ struct vector vec_add(const struct vector *v1, const struct vector *v2) {
   return sum;
 }
 
-struct vector vec_scalar_mult(const struct vector *vec, const int c) {
+struct vector vec_scalar_mult(const struct vector *vec, int c) {
   assert(is_vec_valid(vec));
 
   struct vector prod = *vec;
