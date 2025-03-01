@@ -29,8 +29,8 @@ bool equal_vec(const struct vector *v1, const struct vector *v2);
 //           v1 and v2 belong to the same Rn
 struct vector vec_add(const struct vector *v1, const struct vector *v2);
 
-// vec_scalar_mult(vec, k) computes the scalar multiplication of vec and k.
+// vec_scalar_mult(vec, c) computes the scalar multiplication of vec and c.
 // requires: vec is a valid vector
-struct vector vec_scalar_mult(const struct vector *vec, const int k);
+struct vector vec_scalar_mult(const struct vector *vec, const int c);
 
 #endif

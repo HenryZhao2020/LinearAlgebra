@@ -13,9 +13,14 @@ bool is_vec_valid(const struct vector *vec) {
 void print_vec(const struct vector *vec) {
   assert(is_vec_valid(vec));
 
+  printf("(");
   for (int i = 0; i < vec->n; ++i) {
-    printf("|%d|\n", vec->comp[i]);
+    if (i > 0) {
+      printf(",");
+    }
+    printf("%d", vec->comp[i]);
   }
+  printf(")");
 }
 
 bool equal_vec(const struct vector *v1, const struct vector *v2) {
@@ -46,12 +51,12 @@ struct vector vec_add(const struct vector *v1, const struct vector *v2) {
   return sum;
 }
 
-struct vector vec_scalar_mult(const struct vector *vec, const int k) {
+struct vector vec_scalar_mult(const struct vector *vec, const int c) {
   assert(is_vec_valid(vec));
 
   struct vector prod = *vec;
   for (int i = 0; i < prod.n; ++i) {
-    prod.comp[i] *= k;
+    prod.comp[i] *= c;
   }
   return prod;
 }
