@@ -1,4 +1,6 @@
 #include "vector.h"
+#include "matrix.h"
+#include "basis.h"
 
 #include <stdio.h>
 #include <stdbool.h>
@@ -62,9 +64,9 @@ bool exec_vec_add() {
   struct vector sum = vec_add(&v1, &v2);
   printf("Vector addition:\n");
   print_vec(&v1);
-  printf(" + ");
+  printf("+\n");
   print_vec(&v2);
-  printf(" = ");
+  printf("=\n");
   print_vec(&sum);
   printf("\n");
 
@@ -90,46 +92,82 @@ bool exec_vec_scalar_mult() {
 
   struct vector prod = vec_scalar_mult(&vec, c);
   printf("Vector scalar multiplication:\n");
-  printf("%d", c);
+  printf("%d\n", c);
+  printf("*\n");
   print_vec(&vec);
-  printf(" = ");
+  printf("=\n");
   print_vec(&prod);
   printf("\n");
 
   return true;
 }
 
+// exec_std_basis() produces the standard basis for Rn.
+//   The function produces true if the operation is successful and false otherwise.
+// effects: reads input, produces output
+bool exec_std_basis() {
+  int n = 0;
+  printf("n: ");
+  if (1 != scanf("%d", &n)) {
+    return false;
+  }
+
+  struct matrix basis = std_basis(n);
+  printf("Standard basis for R%d\n", n);
+  print_matrix(&basis);
+  return true;
+}
+
 // help() outputs program mannual and developer info.
 // effects: produces output
 void help() {
-  printf("Help is on the way~\n");
+  const int dashes = 35;
+
+  printf("(#)\tCommand\t\tOperation\n");
+  for (int i = 0; i < dashes; ++i) printf("-");
+  printf("\n");
+  printf("(0)\texit\t\tterminate the program\n");
+  printf("(1)\thelp\t\tprogram manual and developer info\n");
+  printf("(2)\tva\t\tvector addition\n");
+  printf("(3)\tvsm\t\tvector scalar multiplication\n");
+  printf("(4)\tstdb\t\tstandard basis of Rn\n");
+
+  printf("\nProgram Information\n");
+  for (int i = 0; i < dashes; ++i) printf("-");
+  printf("\n");
+  printf("Developer:\tHenry Zhao\n");
+  printf("Version:\tv1.0\n");
+  printf("Reference:\tD. Wolczuk, MATH 136 Course Notes Edition 2024.1\n");
 }
 
 int main(void) {
-  printf("Welcome to MATH 136 Tutor!\n");
-  printf("Developer: Henry Zhao\n\n");
+  printf("Welcome to Linear Algebra Tutor!\n");
   printf("Please enter 'help' to get started.\n\n\n");
   
   while (true) {
     char cmd[11];
-    printf("Command: ");
-    if (1 != scanf("%10s", cmd) || !strcmp(cmd, "e")) {
+    printf("Enter number or command (e.g. 2 or va): ");
+    if (1 != scanf("%10s", cmd)) {
       break;
     }
     printf("\n");
     
-    if (!strcmp(cmd, "help")) {
+    if (!strcmp(cmd, "exit") || !strcmp(cmd, "0")) {
+      break;
+    } else if (!strcmp(cmd, "help") || !strcmp(cmd, "1")) {
       help();
-    } else if (!strcmp(cmd, "va")) {
+    } else if (!strcmp(cmd, "va") || !strcmp(cmd, "2")) {
       exec_vec_add();
-    } else if (!strcmp(cmd, "vsm")) {
+    } else if (!strcmp(cmd, "vsm") || !strcmp(cmd, "3")) {
       exec_vec_scalar_mult();
+    } else if (!strcmp(cmd, "stdb") || !strcmp(cmd, "4")) {
+      exec_std_basis();
     } else {
-      printf("Invalid command! Please enter 'help' to see the program mannual.\n");
+      printf("Invalid command! Please enter 'help' to see the program manual.\n");
     }
 
     printf("\n");
   }
 
-  printf("Hope you ace MATH 136! See you next time.\n");
+  printf("\nHope you ace linear algebra! See you next time.\n");
 }
