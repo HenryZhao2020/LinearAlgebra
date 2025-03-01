@@ -1,4 +1,5 @@
 #include "vector.h"
+#include "integer.h"
 
 #include <stdio.h>
 #include <assert.h>
@@ -14,17 +15,16 @@ bool is_vec_valid(const struct vector *vec) {
 int print_vec(const struct vector *vec) {
   assert(is_vec_valid(vec));
 
-  int num_lens[100] = {0};
   int max_len = 0;
   for (int i = 0; i < vec->n; ++i) {
-    num_lens[i] = snprintf(NULL, 0, "%d", vec->comp[i]);
-    if (num_lens[i] > max_len) {
-      max_len = num_lens[i];
+    int len = numlen(vec->comp[i]);
+    if (len > max_len) {
+      max_len = len;
     }
   }
 
   for (int i = 0; i < vec->n; ++i) {
-    int space = max_len - num_lens[i];
+    int space = max_len - numlen(vec->comp[i]);
     printf("|");
     for (int j = 0; j < space / 2; ++j) printf(" ");
     printf("%d", vec->comp[i]);
