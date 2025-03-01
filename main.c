@@ -45,7 +45,7 @@ bool read_vec(struct vector *vec, const char *var) {
   return true;
 }
 
-// exec_vec_add() executes vector addition.
+// exec_vec_add() produces the result of adding two vectors.
 //   The function produces true if the operation is successful and false otherwise.
 // effects: reads input, produces output
 bool exec_vec_add() {
@@ -73,7 +73,7 @@ bool exec_vec_add() {
   return true;
 }
 
-// exec_vec_scalar_mult() executes scalar vector multiplication.
+// exec_vec_scalar_mult() produces the result of scalar vector multiplication.
 //   The function produces true if the operation is successful and false otherwise.
 // effects: reads input, produces output
 bool exec_vec_scalar_mult() {
@@ -118,6 +118,64 @@ bool exec_std_basis() {
   return true;
 }
 
+// exec_dot_product() produces the dot product of two vectors.
+//   The function produces true if the operation is successful and false otherwise.
+// effects: reads input, produces output
+bool exec_dot_product() {
+  struct vector v1 = {0, {0}};
+  struct vector v2 = {0, {0}};
+
+  if (!read_vec(&v1, "v1")) {
+    return false;
+  }
+  printf("\n");
+  if (!read_vec(&v2, "v2")) {
+    return false;
+  }
+  printf("\n");
+
+  int dp = dot_product(&v1, &v2);
+  printf("Dot product is: %d\n", dp);
+  return true;
+}
+
+// exec_cross_product() produces the cross product of two vectors.
+//   The function produces true if the operation is successful and false otherwise.
+// effects: reads input, produces output
+bool exec_cross_product() {
+  struct vector v1 = {0, {0}};
+  struct vector v2 = {0, {0}};
+
+  if (!read_vec(&v1, "v1")) {
+    return false;
+  }
+  printf("\n");
+  if (!read_vec(&v2, "v2")) {
+    return false;
+  }
+  printf("\n");
+
+  struct vector cross = cross_product(&v1, &v2);
+  printf("Cross product is:\n");
+  print_vec(&cross);
+  return true;
+}
+
+// exec_vec_len() produces the length (norm) of a vector.
+//   The function produces true if the operation is successful and false otherwise.
+// effects: reads input, produces output
+bool exec_vec_len() {
+  struct vector vec = {0, {0}};
+  if (!read_vec(&vec, "v")) {
+    return false;
+  }
+  printf("\n");
+
+  int len = vec_len(&vec);
+  printf("Length (norm): %d\n", len);
+  return true;
+}
+
 // help() outputs program mannual and developer info.
 // effects: produces output
 void help() {
@@ -126,11 +184,14 @@ void help() {
   printf("(#)\tCommand\t\tOperation\n");
   for (int i = 0; i < dashes; ++i) printf("-");
   printf("\n");
-  printf("(0)\texit\t\tterminate the program\n");
-  printf("(1)\thelp\t\tprogram manual and developer info\n");
-  printf("(2)\tva\t\tvector addition\n");
-  printf("(3)\tvsm\t\tvector scalar multiplication\n");
-  printf("(4)\tstdb\t\tstandard basis of Rn\n");
+  printf("(0)\texit\t\tTerminate the program\n");
+  printf("(1)\thelp\t\tProgram manual and developer info\n");
+  printf("(2)\tvadd\t\tVector addition\n");
+  printf("(3)\tvsmult\t\tVector scalar multiplication\n");
+  printf("(4)\tstdbas\t\tStandard basis of Rn\n");
+  printf("(5)\tdot\t\tDot product of two vectors in Rn\n");
+  printf("(6)\tcross\t\tCross product of two vectors in R3\n");
+  printf("(7)\tvlen\t\tLength (norm) of a vector\n");
 
   printf("\nProgram Information\n");
   for (int i = 0; i < dashes; ++i) printf("-");
@@ -156,12 +217,18 @@ int main(void) {
       break;
     } else if (!strcmp(cmd, "help") || !strcmp(cmd, "1")) {
       help();
-    } else if (!strcmp(cmd, "va") || !strcmp(cmd, "2")) {
+    } else if (!strcmp(cmd, "vadd") || !strcmp(cmd, "2")) {
       exec_vec_add();
-    } else if (!strcmp(cmd, "vsm") || !strcmp(cmd, "3")) {
+    } else if (!strcmp(cmd, "vsmult") || !strcmp(cmd, "3")) {
       exec_vec_scalar_mult();
-    } else if (!strcmp(cmd, "stdb") || !strcmp(cmd, "4")) {
+    } else if (!strcmp(cmd, "stdbas") || !strcmp(cmd, "4")) {
       exec_std_basis();
+    } else if (!strcmp(cmd, "dot") || !strcmp(cmd, "5")) {
+      exec_dot_product();
+    } else if (!strcmp(cmd, "cross") || !strcmp(cmd, "6")) {
+      exec_cross_product();
+    } else if (!strcmp(cmd, "vlen") || !strcmp(cmd, "7")) {
+      exec_vec_len();
     } else {
       printf("Invalid command! Please enter 'help' to see the program manual.\n");
     }
