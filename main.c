@@ -7,28 +7,32 @@
 #include <string.h>
 #include <assert.h>
 
-const int cmd_max_len = 10;
+const char *cmd_chart[] = {
+  "exit",     "Terminate the program",
+  "help",     "View program manual",
+  "vec",      "Define a vector",
+  "vadd",     "Perform vector addition",
+  "vsmult",   "Perform vector scalar multiplication",
+  "stdbas",   "Determine the standard basis of Rn",
+  "dot",      "Compute the dot product of two vectors in Rn",
+  "cross",    "Compute the cross product of two vectors in R3",
+  "vlen",     "Determine the length (norm) of a vector"
+};
 
-// read_vec(vec, var) reads the dimension n and the components of a vector.  
+// read_vec_comp(vec, n, var) reads the components of vec in Rn.
 //   If the input is valid, it updates vec and returns true.  
 //   Otherwise, vec remains unchanged, and the function returns false.  
-//   var represents the name of vec.  
-// requires: vec and var are not NULL.
+//   var is the name of vec.
+// requires: vec and var are not NULL
+//           min_n <= n <= max_n
 // effects: reads input, produces output
-//          may mutate vec.
-bool read_vec(struct vector *vec, const char *var) {
+//          may mutate vec
+bool read_vec_comp(struct vector *vec, int n, const char *var) {
   assert(vec);
+  assert(n >= min_n && n <= max_n);
   assert(var);
 
-  int n = 0;
-  int comp[100];
-
-  printf("Defining vector %s\n", var);
-  printf("Dimension: ");
-  if (1 != scanf("%d", &n)) {
-    return false;
-  }
-
+  int comp[100] = {0};
   printf("Defining components of the vector %s\n", var);
   for (int i = 0; i < n; ++i) {
     printf("x%d: ", (i + 1));
@@ -37,10 +41,33 @@ bool read_vec(struct vector *vec, const char *var) {
     }
   }
 
-  vec->n = n;
   for (int i = 0; i < n; ++i) {
     vec->comp[i] = comp[i];
   }
+
+  return true;
+}
+
+// read_vec(vec, var) reads the dimension and the components of a vector.  
+//   If the input is valid, it updates vec and returns true.  
+//   Otherwise, vec remains unchanged, and the function returns false.  
+//   var is the name of vec.  
+// requires: vec and var are not NULL
+// effects: reads input, produces output
+//          may mutate vec
+bool read_vec(struct vector *vec, const char *var) {
+  assert(vec);
+  assert(var);
+
+  int n = 0;
+  printf("Defining vector %s\n", var);
+  printf("Dimension: ");
+  if (1 != scanf("%d", &n)) {
+    return false;
+  }
+
+  read_vec_comp(vec, n, var);
+  vec->n = n;
 
   return true;
 }
@@ -107,7 +134,7 @@ bool exec_vec_scalar_mult() {
 // effects: reads input, produces output
 bool exec_std_basis() {
   int n = 0;
-  printf("n: ");
+  printf("Dimension: ");
   if (1 != scanf("%d", &n)) {
     return false;
   }
@@ -115,6 +142,7 @@ bool exec_std_basis() {
   struct matrix basis = std_basis(n);
   printf("Standard basis for R%d\n", n);
   print_matrix(&basis);
+
   return true;
 }
 
@@ -135,7 +163,8 @@ bool exec_dot_product() {
   printf("\n");
 
   int dp = dot_product(&v1, &v2);
-  printf("Dot product is: %d\n", dp);
+  printf("Dot product of v1 and v2 is: %d\n", dp);
+
   return true;
 }
 
@@ -143,21 +172,22 @@ bool exec_dot_product() {
 //   The function produces true if the operation is successful and false otherwise.
 // effects: reads input, produces output
 bool exec_cross_product() {
-  struct vector v1 = {0, {0}};
-  struct vector v2 = {0, {0}};
+  struct vector v1 = {3, {0}};
+  struct vector v2 = {3, {0}};
 
-  if (!read_vec(&v1, "v1")) {
+  if (!read_vec_comp(&v1, 3, "v1 in R3")) {
     return false;
   }
   printf("\n");
-  if (!read_vec(&v2, "v2")) {
+  if (!read_vec_comp(&v2, 3, "v2 in R3")) {
     return false;
   }
   printf("\n");
 
   struct vector cross = cross_product(&v1, &v2);
-  printf("Cross product is:\n");
+  printf("Cross product of v1 and v2 is:\n");
   print_vec(&cross);
+
   return true;
 }
 
@@ -172,7 +202,8 @@ bool exec_vec_len() {
   printf("\n");
 
   int len = vec_len(&vec);
-  printf("Length (norm): %d\n", len);
+  printf("Length (norm) of v: %d\n", len);
+
   return true;
 }
 
@@ -181,17 +212,15 @@ bool exec_vec_len() {
 void help() {
   const int dashes = 35;
 
-  printf("(#)\tCommand\t\tOperation\n");
+  printf("Command\t\tOperation\n");
   for (int i = 0; i < dashes; ++i) printf("-");
   printf("\n");
-  printf("(0)\texit\t\tTerminate the program\n");
-  printf("(1)\thelp\t\tProgram manual and developer info\n");
-  printf("(2)\tvadd\t\tVector addition\n");
-  printf("(3)\tvsmult\t\tVector scalar multiplication\n");
-  printf("(4)\tstdbas\t\tStandard basis of Rn\n");
-  printf("(5)\tdot\t\tDot product of two vectors in Rn\n");
-  printf("(6)\tcross\t\tCross product of two vectors in R3\n");
-  printf("(7)\tvlen\t\tLength (norm) of a vector\n");
+
+  const char **chart = cmd_chart;
+  while (*(chart + 1)) {
+    printf("%s\t\t%s\n", *chart, *(chart + 1));
+    chart += 2;
+  }
 
   printf("\nProgram Information\n");
   for (int i = 0; i < dashes; ++i) printf("-");
@@ -202,32 +231,34 @@ void help() {
 }
 
 int main(void) {
-  printf("Welcome to Linear Algebra Tutor!\n");
+  const int cmd_max_len = 10;
+
+  printf("Welcome to the Centre for Linear Algebra!\n");
   printf("Please enter 'help' to get started.\n\n\n");
   
   while (true) {
     char cmd[11];
-    printf("Enter number or command (e.g. 2 or va): ");
+    printf("Enter command (e.g. va, dot): ");
     if (1 != scanf("%10s", cmd)) {
       break;
     }
     printf("\n");
     
-    if (!strcmp(cmd, "exit") || !strcmp(cmd, "0")) {
+    if (!strcmp(cmd, "exit")) {
       break;
-    } else if (!strcmp(cmd, "help") || !strcmp(cmd, "1")) {
+    } else if (!strcmp(cmd, "help")) {
       help();
-    } else if (!strcmp(cmd, "vadd") || !strcmp(cmd, "2")) {
+    } else if (!strcmp(cmd, "vadd")) {
       exec_vec_add();
-    } else if (!strcmp(cmd, "vsmult") || !strcmp(cmd, "3")) {
+    } else if (!strcmp(cmd, "vsmult")) {
       exec_vec_scalar_mult();
-    } else if (!strcmp(cmd, "stdbas") || !strcmp(cmd, "4")) {
+    } else if (!strcmp(cmd, "stdbas")) {
       exec_std_basis();
-    } else if (!strcmp(cmd, "dot") || !strcmp(cmd, "5")) {
+    } else if (!strcmp(cmd, "dot")) {
       exec_dot_product();
-    } else if (!strcmp(cmd, "cross") || !strcmp(cmd, "6")) {
+    } else if (!strcmp(cmd, "cross")) {
       exec_cross_product();
-    } else if (!strcmp(cmd, "vlen") || !strcmp(cmd, "7")) {
+    } else if (!strcmp(cmd, "vlen")) {
       exec_vec_len();
     } else {
       printf("Invalid command! Please enter 'help' to see the program manual.\n");
@@ -236,5 +267,5 @@ int main(void) {
     printf("\n");
   }
 
-  printf("\nHope you ace linear algebra! See you next time.\n");
+  printf("\nHope you enjoy linear algebra! See you next time.\n");
 }
