@@ -18,6 +18,10 @@ struct vector {
 // is_vec_valid(vec) produces true if vec is a valid vector and false otherwise.
 bool is_vec_valid(const struct vector *vec);
 
+// is_vec_zero(vec) produces true if vec is a zero vector and false otherwise.
+// requires: vec is a valid vector
+bool is_vec_zero(const struct vector *vec);
+
 // print_vec(vec) outputs vec in a column and returns the width of the column.
 // requires: vec is a valid vector
 // effects: produces output
@@ -51,6 +55,10 @@ struct vector cross_product(const struct vector *v1, const struct vector *v2);
 
 // vec_len(vec) produces the length (norm) of vec.
 // requires: vec is a valid vector
-int vec_len(const struct vector *vec);
+double vec_len(const struct vector *vec);
+
+// vec_angle(v1, v2) produces the angle between v1 and v2 in radians.
+// requires: v1 and v2 are valid, non-zero vectors in the same Rn.
+double vec_angle(const struct vector *v1, const struct vector *v2);
 
 #endif

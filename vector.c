@@ -13,6 +13,17 @@ bool is_vec_valid(const struct vector *vec) {
          (vec->n >= min_n && vec->n <= max_n);
 }
 
+bool is_vec_zero(const struct vector *vec) {
+  assert(is_vec_valid(vec));
+
+  for (int i = 0; i < vec->n; ++i) {
+    if (vec->comp[i] != 0) {
+      return false;
+    }
+  }
+  return true;
+}
+
 int print_vec(const struct vector *vec) {
   assert(is_vec_valid(vec));
 
@@ -106,8 +117,16 @@ struct vector cross_product(const struct vector *v1, const struct vector *v2) {
   return cp;
 }
 
-int vec_len(const struct vector *vec) {
+double vec_len(const struct vector *vec) {
   assert(is_vec_valid(vec));
 
   return sqrt(dot_product(vec, vec));
+}
+
+double vec_angle(const struct vector *v1, const struct vector *v2) {
+  assert(is_vec_valid(v1) && !is_vec_zero(v1));
+  assert(is_vec_valid(v2) && !is_vec_zero(v2));
+  assert(v1->n == v2->n);
+
+  return acos(dot_product(v1, v2) / (vec_len(v1) * vec_len(v2)));
 }
