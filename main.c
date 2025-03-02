@@ -1,12 +1,14 @@
 #include "vector.h"
 #include "matrix.h"
 #include "basis.h"
+#include "proj.h"
 
 #include <stdio.h>
 #include <stdbool.h>
 #include <string.h>
 #include <assert.h>
 
+// All commands and their descriptions
 const char *cmd_chart[] = {
   "exit",     "Terminate the program",
   "help",     "View program manual",
@@ -17,28 +19,33 @@ const char *cmd_chart[] = {
   "cross",    "Compute the cross product of two vectors in R3",
   "vlen",     "Determine the length (norm) of a vector",
   "vang",     "Determine the angle between two vectors in radians",
+  // ----------proj, perp----------
+  "projv",    "Compute the projection of a vector onto another vector",
+  "perpv",    "Compute the perpendicular of a vector onto another vector",
+  "projp",    "Compute the projection of a vector in R3 onto a plane",
+  "perpp",    "Compute the perpendicular of a vector in R3 onto a plane",
   // ------------matrix------------
   "stdbas",   "Determine the standard basis of Rn",
 };
 
 // read_vec_comp(vec, n, var) reads the components of vec in Rn.
-//   If the input is valid, it updates vec and returns true.  
+//   If the input is valid, the function updates vec and returns true.  
 //   Otherwise, vec remains unchanged, and the function returns false.  
 //   var is the name of vec.
 // requires: vec and var are not NULL
-//           min_n <= n <= max_n
+//           0 <= n <= max_n
 // effects: reads input, produces output
 //          may mutate vec
 bool read_vec_comp(struct vector *vec, int n, const char *var) {
   assert(vec);
-  assert(n >= min_n && n <= max_n);
+  assert(n >= 0 && n <= max_n);
   assert(var);
 
-  int comp[100] = {0};
+  double comp[100] = {0};
   printf("Defining components of the vector %s\n", var);
   for (int i = 0; i < n; ++i) {
     printf("x%d: ", (i + 1));
-    if (1 != scanf("%d", &comp[i])) {
+    if (1 != scanf("%lf", &comp[i])) {
       return false;
     }
   }
@@ -51,7 +58,7 @@ bool read_vec_comp(struct vector *vec, int n, const char *var) {
 }
 
 // read_vec(vec, var) reads the dimension and the components of a vector.  
-//   If the input is valid, it updates vec and returns true.  
+//   If the input is valid, the function updates vec and returns true.  
 //   Otherwise, vec remains unchanged, and the function returns false.  
 //   var is the name of vec.  
 // requires: vec and var are not NULL
@@ -68,7 +75,9 @@ bool read_vec(struct vector *vec, const char *var) {
     return false;
   }
 
-  read_vec_comp(vec, n, var);
+  if (!read_vec_comp(vec, n, var)) {
+    return false;
+  }
   vec->n = n;
 
   return true;
@@ -112,17 +121,16 @@ bool exec_vsmult() {
   }
   printf("\n");
 
-  int c = 0;
+  double c = 0;
   printf("c: ");
-  if (1 != scanf("%d", &c)) {
+  if (1 != scanf("%lf", &c)) {
     return false;
   }
   printf("\n");
 
   struct vector prod = vec_scalar_mult(&vec, c);
   printf("Vector scalar multiplication:\n");
-  printf("%d\n", c);
-  printf("*\n");
+  printf("%g\n", c);
   print_vec(&vec);
   printf("=\n");
   print_vec(&prod);
@@ -231,13 +239,41 @@ bool exec_stdbas() {
   return true;
 }
 
+bool exec_projv() {
+  struct vector u = {0, {0}};
+  struct vector v = {0, {0}};
+
+  if (!read_vec(&u, "u")) {
+    return false;
+  }
+  printf("\n");
+  if (!read_vec(&v, "v")) {
+    return false;
+  }
+  printf("\n");
+
+  struct vector proj = projv(&u, &v);
+  printf("The projection of u onto v is:\n");
+  print_vec(&proj);
+
+  return true;
+}
+
+void exec_perpv() {}
+
+void exec_projp() {}
+
+void exec_perpp() {}
+
 // help() outputs program mannual and developer info.
 // effects: produces output
 void help() {
   const int dashes = 35;
 
   printf("Command\t\tOperation\n");
-  for (int i = 0; i < dashes; ++i) printf("-");
+  for (int i = 0; i < dashes; ++i) {
+    printf("-");
+  }
   printf("\n");
 
   const char **chart = cmd_chart;
@@ -247,7 +283,9 @@ void help() {
   }
 
   printf("\nProgram Information\n");
-  for (int i = 0; i < dashes; ++i) printf("-");
+  for (int i = 0; i < dashes; ++i) {
+    printf("-");
+  }
   printf("\n");
   printf("Developer:\tHenry Zhao\n");
   printf("Version:\tv1.0\n");
@@ -284,6 +322,14 @@ int main(void) {
       exec_vlen();
     } else if (!strcmp(cmd, "vang")) {
       exec_vang();
+    } else if (!strcmp(cmd, "projv")) {
+      exec_projv();
+    } else if (!strcmp(cmd, "perpv")) {
+      exec_perpv();
+    } else if (!strcmp(cmd, "projp")) {
+      exec_projp();
+    } else if (!strcmp(cmd, "perpp")) {
+      exec_perpp();
     } else if (!strcmp(cmd, "stdbas")) {
       exec_stdbas();
     } else {
