@@ -1,4 +1,4 @@
-// "integer.h" provides utilities for integer operations.
+// "integer.h" provides utilities for real number operations.
 
 #ifndef INTEGER_H
 #define INTEGER_H
