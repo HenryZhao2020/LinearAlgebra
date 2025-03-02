@@ -23,7 +23,7 @@ bool is_vec_zero(const struct vector *vec) {
   return true;
 }
 
-int print_vec(const struct vector *vec) {
+int print_vec(const struct vector *vec, bool tab) {
   assert(is_vec_valid(vec));
 
   int max_len = 0;
@@ -35,6 +35,10 @@ int print_vec(const struct vector *vec) {
   }
 
   for (int i = 0; i < vec->n; ++i) {
+    if (tab) {
+      printf("\t");
+    }
+
     int space = max_len - numlen(vec->comp[i]);
     printf("|");
     for (int j = 0; j < space / 2; ++j) {
@@ -81,6 +85,10 @@ struct vector vec_add(const struct vector *v1, const struct vector *v2) {
   struct vector sum = {v1->n, {0}};
   for (int i = 0; i < v1->n; ++i) {
     sum.comp[i] = v1->comp[i] + v2->comp[i];
+    // Avoid printing -0 instead of 0
+    if (sum.comp[i] == -0.0) {
+      sum.comp[i] = 0;
+    }
   }
   return sum;
 }
@@ -91,6 +99,10 @@ struct vector vec_scalar_mult(const struct vector *vec, double c) {
   struct vector prod = {vec->n, {0}};
   for (int i = 0; i < prod.n; ++i) {
     prod.comp[i] = c * vec->comp[i];
+    // Avoid printing -0 instead of 0
+    if (prod.comp[i] == -0.0) {
+      prod.comp[i] = 0;
+    }
   }
   return prod;
 }

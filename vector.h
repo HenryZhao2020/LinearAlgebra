@@ -11,6 +11,7 @@ extern const int max_n;
 struct vector {
   int n;              // Dimension in Rn
   double comp[100];   // Components of a vector
+  char *name;         // Variable name
 };
 // requires: 0 <= n <= max_n
 
@@ -21,10 +22,11 @@ bool is_vec_valid(const struct vector *vec);
 // requires: vec is a valid vector
 bool is_vec_zero(const struct vector *vec);
 
-// print_vec(vec) outputs vec in a column and returns the width of the column.
+// print_vec(vec, tab) outputs vec in a column and returns the width of the column.
+//   A tab character will be printed before the column if tab is true.
 // requires: vec is a valid vector
 // effects: produces output
-int print_vec(const struct vector *vec);
+int print_vec(const struct vector *vec, bool tab);
 
 // equal_vec(v1, v2) produces true if v1 and v2 are equal and false otherwise.
 // requires: v1 and v2 are valid vectors
