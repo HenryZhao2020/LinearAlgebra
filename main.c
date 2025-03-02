@@ -9,7 +9,7 @@
 #include <assert.h>
 
 // All commands and their descriptions
-const char *cmd_chart[] = {
+const char *cmd_table[] = {
   "exit",     "Terminate the program",
   "help",     "View program manual",
   // ------------vector------------
@@ -26,6 +26,8 @@ const char *cmd_chart[] = {
   "perpp",    "Compute the perpendicular of a vector in R3 onto a plane",
   // ------------matrix------------
   "stdbas",   "Determine the standard basis of Rn",
+  
+  NULL,  // Indicate the end of the chart
 };
 
 // read_vec_comp(vec, n, var) reads the components of vec in Rn.
@@ -276,10 +278,10 @@ void help() {
   }
   printf("\n");
 
-  const char **chart = cmd_chart;
-  while (*(chart + 1)) {
-    printf("%s\t\t%s\n", *chart, *(chart + 1));
-    chart += 2;
+  const char **table = cmd_table;
+  while (*table) {
+    printf("%s\t\t%s\n", *table, *(table + 1));
+    table += 2;
   }
 
   printf("\nProgram Information\n");
