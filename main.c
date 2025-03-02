@@ -440,7 +440,8 @@ int main(void) {
     } else if (!strcmp(cmd, "perpp")) {
       exec_perpp();
     } else {
-      printf("Invalid command! Please enter 'help' to see the program manual.\n");
+      printf("Invalid command!\n");
+      printf("Please enter 'help' to view the program manual.\n");
     }
 
     printf("\n\n");
