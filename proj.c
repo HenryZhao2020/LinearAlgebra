@@ -3,13 +3,13 @@
 
 #include <assert.h>
 
-// proj_assert(v1, v2) runs assertion tests to ensure that the projection
-//   and perpendicular of v1 onto v2 can be computed.
-void proj_assert(const struct vector *v1, const struct vector *v2) {
-  assert(is_vec_valid(v1));
-  assert(is_vec_valid(v2));
-  assert(v1->n == v2->n);
-  assert(!is_vec_zero(v2));
+// proj_assert(u, v) runs assertion tests to ensure that the projection
+//   and perpendicular of u onto v can be computed.
+void proj_assert(const struct vector *u, const struct vector *v) {
+  assert(is_vec_valid(u));
+  assert(is_vec_valid(v));
+  assert(u->n == v->n);
+  assert(!is_vec_zero(v));
 }
 
 struct vector projv(const struct vector *u, const struct vector *v) {

@@ -16,13 +16,15 @@ struct vector projv(const struct vector *u, const struct vector *v);
 //           v is not a zero vector
 struct vector perpv(const struct vector *u, const struct vector *v);
 
-// projp(x, n) produces the projection of x onto a plane with the normal vector n.
-// requires: x and n are valid vectors in the same Rn
+// projp(x, n) produces the projection of x onto a plane,
+//   where n is a normal vector of the plane.
+// requires: x and n are valid vectors in R3
 //           x is not a zero vector
 struct vector projp(const struct vector *x, const struct vector *n);
 
-// perpp(x, n) produces the perpendicular of x onto a plane with the normal vector n.
-// requires: x and n are valid vectors in the same Rn
+// perpp(x, n) produces the perpendicular of x onto a plane,
+//   where n is a normal vector of the plane.
+// requires: x and n are valid vectors in R3
 //           x is not a zero vector
 struct vector perpp(const struct vector *x, const struct vector *n);
 
