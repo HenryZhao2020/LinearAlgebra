@@ -1,12 +1,12 @@
 #include "matrix.h"
-#include "integer.h"
+#include "real.h"
 
 #include <stdio.h>
 #include <assert.h>
 
 const int max_rows = 100;
 const int max_cols = 100;
-const int max_table_size = 10000;
+const int max_table_size = max_rows * max_cols;
 
 bool is_matrix_valid(const struct matrix *mat) {
   return mat && 
@@ -30,9 +30,13 @@ void print_matrix(const struct matrix *mat) {
     for (int c = 0; c < mat->cols; ++c) {
       int i = r * mat->cols + c;
       int space = max_len - numlen(mat->table[i]);
-      for (int j = 0; j < space / 2; ++j) printf(" ");
+      for (int j = 0; j < space / 2; ++j) {
+        printf(" ");
+      }
       printf("%d", mat->table[i]);
-      for (int j = space / 2; j <= space; ++j) printf(" ");
+      for (int j = space / 2; j <= space; ++j) {
+        printf(" ");
+      }
     }
     printf("|\n");
   }
