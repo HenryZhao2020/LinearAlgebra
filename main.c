@@ -261,11 +261,65 @@ bool exec_projv() {
   return true;
 }
 
-void exec_perpv() {}
+bool exec_perpv() {
+  struct vector u = {0, {0}};
+  struct vector v = {0, {0}};
 
-void exec_projp() {}
+  if (!read_vec(&u, "u")) {
+    return false;
+  }
+  printf("\n");
+  if (!read_vec(&v, "v")) {
+    return false;
+  }
+  printf("\n");
 
-void exec_perpp() {}
+  struct vector proj = perpv(&u, &v);
+  printf("The perpendicular of u onto v is:\n");
+  print_vec(&proj);
+
+  return true;
+}
+
+bool exec_projp() {
+  struct vector x = {3, {0}};
+  struct vector n = {3, {0}};
+
+  if (!read_vec_comp(&x, 3, "x in R3")) {
+    return false;
+  }
+  printf("\n");
+  if (!read_vec_comp(&n, 3, "n in R3")) {
+    return false;
+  }
+  printf("\n");
+
+  struct vector proj = projp(&x, &n);
+  printf("The projection of x onto the plane (normal vector = n) is:\n");
+  print_vec(&proj);
+
+  return true;
+}
+
+bool exec_perpp() {
+  struct vector x = {3, {0}};
+  struct vector n = {3, {0}};
+
+  if (!read_vec_comp(&x, 3, "x in R3")) {
+    return false;
+  }
+  printf("\n");
+  if (!read_vec_comp(&n, 3, "n in R3")) {
+    return false;
+  }
+  printf("\n");
+
+  struct vector perp = perpp(&x, &n);
+  printf("The perpendicular of x onto the plane (normal vector = n) is:\n");
+  print_vec(&perp);
+
+  return true;
+}
 
 // help() outputs program mannual and developer info.
 // effects: produces output
