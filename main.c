@@ -5,6 +5,8 @@
 #include <string.h>
 #include <assert.h>
 
+const int FILE_READ_FAIL = 1;
+
 const int cmd_max_len = 10;
 const int help_doc_len = 5000;
 
@@ -49,7 +51,7 @@ int main(void) {
   char help_doc[5001];
   if (!load_help_doc(help_doc)) {
     printf("Error opening 'help.txt'!\n");
-    return 0;
+    return FILE_READ_FAIL;
   }
 
   printf("Welcome to the Centre for Linear Algebra!\n");
