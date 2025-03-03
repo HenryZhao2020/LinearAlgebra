@@ -8,20 +8,7 @@
 #include <string.h>
 #include <assert.h>
 
-// clear_screen() clears the console screen.
-void clear_screen() {
-  printf("\033[2J\033[H");
-}
-
-// dash() prints a separating line with dashes.
-// effects: produces output
-void dash() {
-  const int dashes = 40;
-  for (int i = 0; i < dashes; ++i) {
-    printf("-");
-  }
-  printf("\n");
-}
+const int cmd_max_len = 10;
 
 // read_vec_comp(v, n) prompts the components of v in Rn.
 //   The function updates v and produces true if all inputs were valid.
@@ -95,7 +82,7 @@ bool read_vec(struct vector *v_arr[], int num_v) {
 // exec_vadd() performs addition of two vectors.
 //   The function produces true if the operations succeed and false otherwise.
 // effects: reads input, produces output
-bool exec_vadd() {
+bool exec_vadd(void) {
   struct vector u = {0, {0}, "u"};
   struct vector v = {0, {0}, "v"};
 
@@ -123,7 +110,7 @@ bool exec_vadd() {
 // exec_vsmult() performs scalar multiplication of a vector.
 //   The function produces true if the operations succeed and false otherwise.
 // effects: reads input, produces output
-bool exec_vsmult() {
+bool exec_vsmult(void) {
   struct vector v = {0, {0}, "v"};
 
   printf("Let %s be a vector in Rn.\n", v.name);
@@ -157,7 +144,7 @@ bool exec_vsmult() {
 // exec_dot() evaluates the dot product of two vectors in Rn.
 //   The function produces true if the operations succeed and false otherwise.
 // effects: reads input, produces output
-bool exec_dot() {
+bool exec_dot(void) {
   struct vector u = {0, {0}, "u"};
   struct vector v = {0, {0}, "v"};
 
@@ -187,7 +174,7 @@ bool exec_dot() {
 // exec_cross() evaluates the cross product of two vectors in R3.
 //   The function produces true if the operations succeed and false otherwise.
 // effects: reads input, produces output
-bool exec_cross() {
+bool exec_cross(void) {
   struct vector u = {3, {0}, "u"};
   struct vector v = {3, {0}, "v"};
 
@@ -218,7 +205,7 @@ bool exec_cross() {
 // exec_vlen() determines the length (norm) of a vector.
 //   The function produces true if the operations succeed and false otherwise.
 // effects: reads input, produces output
-bool exec_vlen() {
+bool exec_vlen(void) {
   struct vector v = {0, {0}, "v"};
 
   printf("Let %s be a vector in Rn.\n", v.name);
@@ -239,7 +226,7 @@ bool exec_vlen() {
 // exec_vang() determines the angle between two vectors in radians.
 //   The function produces true if the operations succeed and false otherwise.
 // effects: reads input, produces output
-bool exec_vang() {
+bool exec_vang(void) {
   struct vector u = {0, {0}, "u"};
   struct vector v = {0, {0}, "v"};
 
@@ -264,7 +251,7 @@ bool exec_vang() {
 
 // exec_projv() finds the projection of a vector onto another vector.
 // effects: reads input, produces output
-bool exec_projv() {
+bool exec_projv(void) {
   struct vector u = {0, {0}, "u"};
   struct vector v = {0, {0}, "v"};
 
@@ -289,7 +276,7 @@ bool exec_projv() {
 
 // exec_perpv() finds the perpendicular of a vector onto another vector.
 // effects: reads input, produces output
-bool exec_perpv() {
+bool exec_perpv(void) {
   struct vector u = {0, {0}, "u"};
   struct vector v = {0, {0}, "v"};
 
@@ -314,7 +301,7 @@ bool exec_perpv() {
 
 // exec_projp() finds the projection of a vector in R3 onto a plane.
 // effects: reads input, produces output
-bool exec_projp() {
+bool exec_projp(void) {
   struct vector x = {3, {0}, "x"};
   struct vector n = {3, {0}, "n"};
 
@@ -339,7 +326,7 @@ bool exec_projp() {
 
 // exec_perpp() finds the perpendicular of a vector in R3 onto a plane.
 // effects: reads input, produces output
-bool exec_perpp() {
+bool exec_perpp(void) {
   struct vector x = {3, {0}, "x"};
   struct vector n = {3, {0}, "n"};
 
@@ -362,48 +349,49 @@ bool exec_perpp() {
   return true;
 }
 
-// help() outputs program manual and developer info.
+// load_help_doc(help_doc) loads the content of "help.txt" to help_doc
+//   and produces true if successful and false otherwise.
+// requires: help_doc is not NULL
+bool load_help_doc(char *help_doc) {
+  assert(help_doc);
+
+  FILE *file = fopen("help.txt", "r");
+  if (!file) {
+    return false;
+  }
+
+  // Move file pointer to the end to get file size
+  fseek(file, 0, SEEK_END);
+  long file_size = ftell(file);
+  // Move back to the beginning
+  rewind(file);  
+
+  // Read entire file into memory
+  fread(help_doc, 1, file_size, file);
+  help_doc[file_size] = '\0';  // Null-terminate the string
+  fclose(file);
+
+  return true;
+}
+
+// help(help_doc) outputs help_doc.
+// requires: help_doc is not NULL
 // effects: produces output
-void help() {
-  printf("Program Controls\n");
-  dash();
-  printf("exit\t\tTerminate the program\n");
-  printf("help\t\tView program manual\n");
-  printf("\n");
+void help(const char *help_doc) {
+  assert(help_doc);
 
-  printf("Vector Operations\n");
-  dash();
-  printf("vadd\t\tPerform addition of two vectors\n");
-  printf("vsmult\t\tPerform scalar multiplication of a vector\n");
-  printf("dot\t\tEvaluate the dot product of two vectors\n");
-  printf("cross\t\tEvaluate the cross product of two vectors in R3\n");
-  printf("vlen\t\tDetermine the length (norm) of a vector\n");
-  printf("vang\t\tDetermine the angle between two vectors in radians\n");
-  printf("\n");
-
-  printf("Projections\n");
-  dash();
-  printf("projv\t\tFind the projection of a vector onto another vector\n");
-  printf("perpv\t\tFind the perpendicular of a vector onto another vector\n");
-  printf("projp\t\tFind the projection of a vector in R3 onto a plane\n");
-  printf("perpp\t\tFind the perpendicular of a vector in R3 onto a plane\n");
-  printf("\n");
-
-//   printf("Matrix Operations\n");
-//   dash();
-//   printf("madd\t\tPerform addition of two matrices\n");
-//   printf("msmult\t\tPerform scalar multiplication of a matrix\n");
-//   printf("\n");
-
-//   printf("Basis\n");
-//   dash();
-//   printf("stdbas\t\tDetermine the basis for Rn\n");
+  for (const char *doc = help_doc; *doc; ++doc) {
+    printf("%c", *doc);
+  }
 }
 
 int main(void) {
-  const int cmd_max_len = 10;
+  char help_doc[5000];
+  if (!load_help_doc(help_doc)) {
+    printf("Error opening 'help.txt'!\n");
+    return 0;
+  }
 
-  clear_screen();
   printf("Welcome to the Centre for Linear Algebra!\n");
   printf("Please enter 'help' to get started.\n\n\n");
   
@@ -418,7 +406,7 @@ int main(void) {
     if (!strcmp(cmd, "exit")) {
       break;
     } else if (!strcmp(cmd, "help")) {
-      help();
+      help(help_doc);
     } else if (!strcmp(cmd, "vadd")) {
       exec_vadd();
     } else if (!strcmp(cmd, "vsmult")) {

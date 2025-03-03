@@ -1,0 +1,20 @@
+Program Controls
+----------------------------------------
+exit            Terminate the program
+help            View program manual
+
+Vector Operations
+----------------------------------------
+vadd            Perform addition of two vectors
+vsmult          Perform scalar multiplication of a vector
+dot             Evaluate the dot product of two vectors
+cross           Evaluate the cross product of two vectors in R3
+vlen            Determine the length (norm) of a vector
+vang            Determine the angle between two vectors in radians
+
+Projections
+----------------------------------------
+projv           Find the projection of a vector onto another vector
+perpv           Find the perpendicular of a vector onto another vector
+projp           Find the projection of a vector in R3 onto a plane
+perpp           Find the perpendicular of a vector in R3 onto a plane
