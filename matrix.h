@@ -7,14 +7,14 @@
 
 extern const int max_height;
 extern const int max_width;
-extern const int max_table_size;
+extern const int max_table_len;
 
 struct vector;
 
 struct matrix {
   int height;
   int width;
-  int table[10000];
+  double table[10000];
 };
 // requires: 0 <= height <= max_height
 //           0 <= width <= max_width
