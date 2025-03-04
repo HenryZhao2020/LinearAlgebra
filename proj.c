@@ -5,7 +5,7 @@
 
 // proj_assert(u, v) runs assertion tests to ensure that the projection
 //   and perpendicular of u onto v can be computed.
-void proj_assert(const struct vector *u, const struct vector *v) {
+static void proj_assert(const struct vector *u, const struct vector *v) {
   assert(is_vec_valid(u));
   assert(is_vec_valid(v));
   assert(u->n == v->n);
