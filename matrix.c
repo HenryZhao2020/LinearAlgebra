@@ -1,12 +1,13 @@
 #include "matrix.h"
 #include "real.h"
+#include "printer.h"
 
 #include <stdio.h>
 #include <assert.h>
 
 const int max_height = 100;
 const int max_width = 100;
-const int max_table_size = max_height * max_width;
+const int max_table_len = max_height * max_width;
 
 bool is_mat_valid(const struct matrix *A) {
   return A && 
@@ -28,26 +29,17 @@ bool is_mat_zero(const struct matrix *A) {
 void print_mat(const struct matrix *A) {
   assert(is_mat_valid(A));
 
-  int max_len = 0;
-  for (int i = 0; i < A->height * A->width; ++i) {
-    int len = numlen(A->table[i]);
-    if (len > max_len) {
-      max_len = len;
-    }
-  }
+  int lens[10000] = {0};
+  int max_len = maxlen(A->table, lens, max_table_len);
 
   for (int r = 0; r < A->height; ++r) {
     printf("| ");
     for (int c = 0; c < A->width; ++c) {
       int i = r * A->width + c;
-      int space = max_len - numlen(A->table[i]);
-      for (int j = 0; j < space / 2; ++j) {
-        printf(" ");
-      }
-      printf("%d", A->table[i]);
-      for (int j = space / 2; j <= space; ++j) {
-        printf(" ");
-      }
+      int space = max_len - lens[i];
+      print_space(space / 2);
+      print_real(A->table[i]);
+      print_space(space / 2 + (space % 2));
     }
     printf("|\n");
   }
