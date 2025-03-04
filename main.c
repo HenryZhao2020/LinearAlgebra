@@ -60,14 +60,12 @@ int main(void) {
   while (true) {
     char cmd[11];
     printf("Enter command (e.g. vadd, dot): ");
-    if (1 != scanf("%10s", cmd)) {
+    if (1 != scanf("%10s", cmd) || !strcmp(cmd, "exit")) {
       break;
     }
     printf("\n");
     
-    if (!strcmp(cmd, "exit")) {
-      break;
-    } else if (!strcmp(cmd, "help")) {
+    if (!strcmp(cmd, "help")) {
       help(help_doc);
     } else if (!strcmp(cmd, "vadd")) {
       exec_vadd();
@@ -97,5 +95,5 @@ int main(void) {
     printf("\n\n");
   }
 
-  printf("Hope you enjoy linear algebra! See you next time.\n");
+  printf("\nHope you enjoy linear algebra! See you next time.\n");
 }
