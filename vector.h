@@ -22,11 +22,11 @@ bool is_vec_valid(const struct vector *v);
 // requires: v is a valid vector
 bool is_vec_zero(const struct vector *v);
 
-// print_vec(v, tab) outputs v in a column and produces the column width.
+// print_vec(v, tab) outputs v in a column.
 //   A tab character will be printed before the column if tab is true.
 // requires: v is a valid vector
 // effects: produces output
-int print_vec(const struct vector *v, bool tab);
+void print_vec(const struct vector *v, bool tab);
 
 // equal_vec(u, v) produces true if u and v are equal and false otherwise.
 // requires: u and v are valid vectors

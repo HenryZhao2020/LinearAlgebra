@@ -1,5 +1,6 @@
 #include "vector.h"
 #include "real.h"
+#include "printer.h"
 
 #include <stdio.h>
 #include <math.h>
@@ -23,35 +24,24 @@ bool is_vec_zero(const struct vector *v) {
   return true;
 }
 
-int print_vec(const struct vector *v, bool tab) {
+void print_vec(const struct vector *v, bool tab) {
   assert(is_vec_valid(v));
 
-  int max_len = 0;
-  for (int i = 0; i < v->n; ++i) {
-    int len = numlen(v->comp[i]);
-    if (len > max_len) {
-      max_len = len;
-    }
-  }
+  int lens[100] = {0};
+  int max_len = maxlen(v->comp, lens, max_n);
 
   for (int i = 0; i < v->n; ++i) {
     if (tab) {
       printf("\t");
     }
 
-    int space = max_len - numlen(v->comp[i]);
+    int space = max_len - lens[i];
     printf("|");
-    for (int j = 0; j < space / 2; ++j) {
-      printf(" ");
-    }
-    printf("%g", v->comp[i]);
-    for (int j = space / 2; j < space; ++j) {
-      printf(" ");
-    }
+    print_space(space / 2);
+    print_real(v->comp[i]);
+    print_space(space / 2 + (space % 2));
     printf("|\n");
   }
-
-  return max_len;
 }
 
 bool equal_vec(const struct vector *u, const struct vector *v) {
@@ -85,10 +75,6 @@ struct vector vec_add(const struct vector *u, const struct vector *v) {
   struct vector sum = {u->n, {0}};
   for (int i = 0; i < u->n; ++i) {
     sum.comp[i] = u->comp[i] + v->comp[i];
-    // Avoid printing -0 instead of 0
-    if (sum.comp[i] == -0.0) {
-      sum.comp[i] = 0;
-    }
   }
   return sum;
 }
@@ -99,10 +85,6 @@ struct vector vec_scalar_mult(const struct vector *v, double c) {
   struct vector prod = {v->n, {0}};
   for (int i = 0; i < prod.n; ++i) {
     prod.comp[i] = c * v->comp[i];
-    // Avoid printing -0 instead of 0
-    if (prod.comp[i] == -0.0) {
-      prod.comp[i] = 0;
-    }
   }
   return prod;
 }
