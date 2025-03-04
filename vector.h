@@ -5,7 +5,7 @@
 
 #include <stdbool.h>
 
-// Upper limit on the dimension of a vector
+// Maximum dimension of a vector
 extern const int max_n;
 
 struct vector {
@@ -41,7 +41,7 @@ double vec_at(const struct vector *v, int i);
 // requires: u and v are valid vectors in the same Rn
 struct vector vec_add(const struct vector *u, const struct vector *v);
 
-// vec_scalar_mult(v, c) computes the scalar multiplication of v and c.
+// vec_scalar_mult(v, c) computes the scalar product of v and c.
 // requires: v is a valid vector
 struct vector vec_scalar_mult(const struct vector *v, double c);
 
