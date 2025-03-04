@@ -5,28 +5,53 @@
 
 #include <stdbool.h>
 
-extern const int max_rows;
-extern const int max_cols;
+extern const int max_height;
+extern const int max_width;
 extern const int max_table_size;
 
+struct vector;
+
 struct matrix {
-  int rows;
-  int cols;
+  int height;
+  int width;
   int table[10000];
 };
-// requires: 0 <= rows <= max_rows
-//           0 <= cols <= max_cols
+// requires: 0 <= height <= max_height
+//           0 <= width <= max_width
 
-// is_matrix_valid(mat) produces true if mat is a valid matrix and false otherwise.
-bool is_matrix_valid(const struct matrix *mat);
+// is_mat_valid(A) produces true if A is a valid matrix and false otherwise.
+bool is_mat_valid(const struct matrix *A);
 
-// print_matrix(mat) outputs mat in a 2D grid.
-// requires: mat is a valid matrix.
+// is_mat_zero(A) produces true if A is a zero matrix and false otherwise.
+// requires: A is a valid matrix
+bool is_mat_zero(const struct matrix *A);
+
+// print_mat(A) outputs A in an mxn grid, where m is the height of A,
+//   and n is the width of A.
+// requires: A is a valid matrix
 // effects: produces output
-void print_matrix(const struct matrix *mat);
+void print_mat(const struct matrix *A);
 
-// equal_matrix(m1, m2) produces true if m1 and m2 are equal and false otherwise.
-// requires: m1 and m2 are valid matrices
-bool equal_matrix(const struct matrix *m1, const struct matrix *m2);
+// equal_mat(A, B) produces true if A and B are equal and false otherwise.
+// requires: A and B are valid matrices
+bool equal_mat(const struct matrix *A, const struct matrix *B);
+
+// mat_add(A, B) produces the sum of A and B.
+// requires: A and B are valid matrices with equal width and height
+struct matrix mat_add(const struct matrix *A, const struct matrix *B);
+
+// mat_smult(A, c) produces the scalar product of A and c.
+// requires: A is a valid matrix
+struct matrix mat_smult(const struct matrix *A, double c);
+
+// mat_vec_mult(A, v) produces the matrix-vector product of A and v.
+// requires: A is a valid matrix
+//           v is a valid vector
+struct matrix mat_vec_mult(const struct matrix *A, const struct vector *v);
+
+// mat_mult(A, B) produces the product of A and B.
+// requires: A and B are valid matrices
+//           the width of A is equal to the height of B
+struct matrix mat_mult(const struct matrix *A, const struct matrix *B);
 
 #endif
