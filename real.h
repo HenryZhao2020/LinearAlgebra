@@ -7,4 +7,11 @@
 //   and decimal places.
 int numlen(double num);
 
+// maxlen(nums, lens, len) stores the length of each number in nums to lens 
+//   and produces the maximum length among the numbers in nums.
+// requires: nums and lens are not NULL.
+//           len is the length of nums and lens, len > 0
+// effects: mutates lens
+int maxlen(const double *nums, int *lens, int len);
+
 #endif
