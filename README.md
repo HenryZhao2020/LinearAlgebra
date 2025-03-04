@@ -1,4 +1,5 @@
 This project explores linear algebra computationally, translating vector and matrix operations into precise computer instructions.
+
 Reference: D. Wolczuk, MATH 136 Course Notes Edition 2024.1
 
 
