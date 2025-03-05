@@ -26,17 +26,21 @@ bool is_mat_zero(const struct matrix *A) {
   return true;
 }
 
-void print_mat(const struct matrix *A) {
+void print_mat(const struct matrix *A, const bool tab) {
   assert(is_mat_valid(A));
 
   int lens[10000] = {0};
-  int max_len = maxlen(A->table, lens, max_table_len);
+  const int max_len = maxlen(A->table, lens, max_table_len);
 
   for (int r = 0; r < A->height; ++r) {
+    if (tab) {
+      printf("\t");
+    }
+
     printf("| ");
     for (int c = 0; c < A->width; ++c) {
-      int i = r * A->width + c;
-      int space = max_len - lens[i];
+      const int i = r * A->width + c;
+      const int space = max_len - lens[i];
       print_space(space / 2);
       print_real(A->table[i]);
       print_space(space / 2 + (space % 2));
@@ -71,8 +75,8 @@ struct matrix mat_mult(const struct matrix *A, const struct matrix *B) {
     for (int c = 0; c < B->width; ++c) {
       int sum = 0;
       for (int k = 0; k < A->width; ++k) {
-        int Ak = r * A->width + k;
-        int Bk = k * B->width + c;
+        const int Ak = r * A->width + k;
+        const int Bk = k * B->width + c;
         sum += A->table[Ak] * B->table[Bk];
       }
       prod.table[r * B->width + c] = sum;

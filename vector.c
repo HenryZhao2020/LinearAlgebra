@@ -6,11 +6,11 @@
 #include <math.h>
 #include <assert.h>
 
-const int max_n = 100;
+const int max_vec_n = 100;
 
 bool is_vec_valid(const struct vector *v) {
   return v && 
-         (v->n >= 0 && v->n <= max_n);
+         (v->n >= 0 && v->n <= max_vec_n);
 }
 
 bool is_vec_zero(const struct vector *v) {
@@ -24,18 +24,18 @@ bool is_vec_zero(const struct vector *v) {
   return true;
 }
 
-void print_vec(const struct vector *v, bool tab) {
+void print_vec(const struct vector *v, const bool tab) {
   assert(is_vec_valid(v));
 
   int lens[100] = {0};
-  int max_len = maxlen(v->comp, lens, max_n);
+  const int max_len = maxlen(v->comp, lens, max_vec_n);
 
   for (int i = 0; i < v->n; ++i) {
     if (tab) {
       printf("\t");
     }
 
-    int space = max_len - lens[i];
+    const int space = max_len - lens[i];
     printf("|");
     print_space(space / 2);
     print_real(v->comp[i]);
@@ -60,7 +60,7 @@ bool equal_vec(const struct vector *u, const struct vector *v) {
   return true;
 }
 
-double vec_at(const struct vector *v, int i) {
+double vec_at(const struct vector *v, const int i) {
   assert(is_vec_valid(v));
   assert(i >= 1 && i <= v->n);
 
@@ -79,7 +79,7 @@ struct vector vec_add(const struct vector *u, const struct vector *v) {
   return sum;
 }
 
-struct vector vec_scalar_mult(const struct vector *v, double c) {
+struct vector vec_scalar_mult(const struct vector *v, const double c) {
   assert(is_vec_valid(v));
 
   struct vector prod = {v->n, {0}};
@@ -106,7 +106,7 @@ struct vector cross_product(const struct vector *u, const struct vector *v) {
   assert(is_vec_valid(v));
   assert(u->n == 3 && v->n == 3);
 
-  struct vector cp = {3, {
+  const struct vector cp = {3, {
     vec_at(u, 2) * vec_at(v, 3) - vec_at(u, 3) * vec_at(v, 2),
     vec_at(u, 3) * vec_at(v, 1) - vec_at(u, 1) * vec_at(v, 3),
     vec_at(u, 1) * vec_at(v, 2) - vec_at(u, 2) * vec_at(v, 1),

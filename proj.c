@@ -15,8 +15,8 @@ static void proj_assert(const struct vector *u, const struct vector *v) {
 struct vector projv(const struct vector *u, const struct vector *v) {
   proj_assert(u, v);
 
-  double len = vec_len(v);
-  double coeff = (dot_product(u, v) / (len * len));
+  const double len = vec_len(v);
+  const double coeff = (dot_product(u, v) / (len * len));
 
   return vec_scalar_mult(v, coeff);
 }
@@ -24,8 +24,8 @@ struct vector projv(const struct vector *u, const struct vector *v) {
 struct vector perpv(const struct vector *u, const struct vector *v) {
   proj_assert(u, v);
 
-  struct vector proj = projv(u, v);
-  struct vector neg_proj = vec_scalar_mult(&proj, -1);
+  const struct vector proj = projv(u, v);
+  const struct vector neg_proj = vec_scalar_mult(&proj, -1);
 
   return vec_add(u, &neg_proj);
 }

@@ -3,13 +3,13 @@
 #include <stdio.h>
 #include <assert.h>
 
-int numlen(double num) {
+int numlen(const double num) {
   char buffer[50];
   int length = sprintf(buffer, "%.15g", num);
   return length;
 }
 
-int maxlen(const double *nums, int *lens, int len) {
+int maxlen(const double *nums, int *lens, const int len) {
   assert(nums);
   assert(lens);
   assert(len > 0);

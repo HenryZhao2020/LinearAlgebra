@@ -6,11 +6,11 @@
 
 // print_space(spaces) outputs num_spaces spaces.
 // effects: produces output
-void print_space(int num_spaces);
+void print_space(const int num_spaces);
 
 // print_real(num) outputs num properly, particularly avoiding outputting 
 //   -0 instead 0.
 // effects: produces output
-void print_real(double num);
+void print_real(const double num);
 
 #endif

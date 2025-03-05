@@ -24,7 +24,7 @@ static bool load_help_doc(char *help_doc) {
 
   // Move file pointer to the end to get file size
   fseek(file, 0, SEEK_END);
-  long file_size = ftell(file);
+  const long file_size = ftell(file);
   // Move back to the beginning
   rewind(file);  
 
