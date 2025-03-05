@@ -17,7 +17,7 @@ bool exec_vadd(void) {
     return false;
   }
 
-  struct vector sum = vec_add(&u, &v);
+  const struct vector sum = vec_add(&u, &v);
   printf("Adding each component of %s and %s:\n", u.name, v.name);
   for (int i = 0; i < v.n; ++i) {
     printf("\t%s%d + %s%d = %g\n", 
@@ -49,7 +49,7 @@ bool exec_vsmult(void) {
   }
   printf("\n");
 
-  struct vector prod = vec_scalar_mult(&v, c);
+  const struct vector prod = vec_scalar_mult(&v, c);
   printf("Multiplying each component of %s by c:\n", v.name);
   for (int i = 0; i < v.n; ++i) {
     printf("\tc(%s%d) = %g\n", v.name, (i + 1), prod.comp[i]);
@@ -73,7 +73,7 @@ bool exec_dot(void) {
     return false;
   }
 
-  double dot = dot_product(&u, &v);
+  const double dot = dot_product(&u, &v);
   for (int i = 0; i < v.n; ++i) {
     if (i) {
       printf(" + ");
@@ -101,7 +101,8 @@ bool exec_cross(void) {
   printf("\n");
 
   printf("Evaluating components of the cross product:\n");
-  struct vector cross = cross_product(&u, &v);
+
+  const struct vector cross = cross_product(&u, &v);
   const int indices[] = {2, 3, 3, 1, 1, 2};
   for (int i = 0; i < 3; ++i) {
     printf("\t%s%d%s%d - %s%d%s%d = %g\n", 
@@ -127,7 +128,7 @@ bool exec_vlen(void) {
     return false;
   }
   
-  double len = vec_len(&v);
+  const double len = vec_len(&v);
   printf("||%s|| = √(%s · %s) = %g\n\n", v.name, v.name, v.name, len);
   printf("Therefore, the length (norm) of %s is: %g\n", v.name, len);
 
@@ -147,7 +148,7 @@ bool exec_vang(void) {
     return false;
   }
 
-  double ang = vec_angle(&u, &v);
+  const double ang = vec_angle(&u, &v);
   printf("θ = arccos((%s · %s) / (||%s|| ||%s||)) = %g\n\n", 
          u.name, v.name, u.name, v.name, ang);
 
@@ -173,7 +174,7 @@ bool exec_projv(void) {
   printf("proj%s(%s) = [(%s · %s) / ||%s||²] %s\n\n", 
          v.name, u.name, u.name, v.name, v.name, v.name);
 
-  struct vector proj = projv(&u, &v);
+  const struct vector proj = projv(&u, &v);
   printf("Therefore, the projection of %s onto %s is:\n", u.name, v.name);
   print_vec(&proj, true);
 
@@ -196,7 +197,7 @@ bool exec_perpv(void) {
   printf("perp%s(%s) = %s - [(%s · %s) / ||%s||²] %s\n\n", 
          v.name, u.name, u.name, u.name, v.name, v.name, v.name); 
 
-  struct vector perp = perpv(&u, &v);
+  const struct vector perp = perpv(&u, &v);
   printf("Therefore, the perpendicular of %s onto %s is:\n", u.name, v.name);
   print_vec(&perp, true);
 
@@ -219,7 +220,7 @@ bool exec_projp(void) {
   printf("projP(%s) = %s - [(%s · %s) / ||%s||²] %s\n\n", 
          x.name, x.name, x.name, n.name, n.name, n.name);
 
-  struct vector proj = projp(&x, &n);
+  const struct vector proj = projp(&x, &n);
   printf("The projection of x onto the plane is:\n");
   print_vec(&proj, true);
 
@@ -242,7 +243,7 @@ bool exec_perpp(void) {
   printf("perpP(%s) = [(%s · %s) / ||%s||²] %s\n\n", 
          x.name, x.name, n.name, n.name, n.name);
 
-  struct vector perp = perpp(&x, &n);
+  const struct vector perp = perpp(&x, &n);
   printf("The perpendicular of x onto the plane is:\n");
   print_vec(&perp, true);
 

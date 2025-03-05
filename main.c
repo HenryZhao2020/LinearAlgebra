@@ -5,16 +5,16 @@
 #include <string.h>
 #include <assert.h>
 
-const int FILE_READ_FAIL = 1;
+static const int FILE_READ_FAIL = 1;
 
-const int cmd_max_len = 10;
-const int help_doc_len = 5000;
+static const int cmd_max_len = 10;
+static const int help_doc_len = 5000;
 
 // load_help_doc(help_doc) produces true if the content of "help.txt" 
 //   is successfully loaded to help_doc and false otherwise.
 // requires: help_doc is not NULL
 // effects: may mutate help_doc
-bool load_help_doc(char *help_doc) {
+static bool load_help_doc(char *help_doc) {
   assert(help_doc);
 
   FILE *file = fopen("help.txt", "r");
@@ -24,7 +24,7 @@ bool load_help_doc(char *help_doc) {
 
   // Move file pointer to the end to get file size
   fseek(file, 0, SEEK_END);
-  long file_size = ftell(file);
+  const long file_size = ftell(file);
   // Move back to the beginning
   rewind(file);  
 
@@ -39,7 +39,7 @@ bool load_help_doc(char *help_doc) {
 // help(help_doc) outputs help_doc.
 // requires: help_doc is not NULL
 // effects: produces output
-void help(const char *help_doc) {
+static void help(const char *help_doc) {
   assert(help_doc);
 
   for (const char *doc = help_doc; *doc; ++doc) {

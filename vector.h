@@ -6,14 +6,14 @@
 #include <stdbool.h>
 
 // Maximum dimension of a vector
-extern const int max_n;
+extern const int max_vec_n;
 
 struct vector {
   int n;              // Dimension in Rn
   double comp[100];   // Components of a vector
   char *name;         // Variable name
 };
-// requires: 0 <= n <= max_n
+// requires: 0 <= n <= max_vec_n
 
 // is_vec_valid(v) produces true if v is a valid vector and false otherwise.
 bool is_vec_valid(const struct vector *v);
@@ -22,11 +22,11 @@ bool is_vec_valid(const struct vector *v);
 // requires: v is a valid vector
 bool is_vec_zero(const struct vector *v);
 
-// print_vec(v, tab) outputs v in a column and produces the column width.
+// print_vec(v, tab) outputs v in a column.
 //   A tab character will be printed before the column if tab is true.
 // requires: v is a valid vector
 // effects: produces output
-int print_vec(const struct vector *v, bool tab);
+void print_vec(const struct vector *v, const bool tab);
 
 // equal_vec(u, v) produces true if u and v are equal and false otherwise.
 // requires: u and v are valid vectors
@@ -35,7 +35,7 @@ bool equal_vec(const struct vector *u, const struct vector *v);
 // vec_at(v, i) produces the i-th component of v.
 // requires: v is a valid vector.
 //           1 <= i <= v->n
-double vec_at(const struct vector *v, int i);
+double vec_at(const struct vector *v, const int i);
 
 // vec_add(u, v) computes the addition of u and v.
 // requires: u and v are valid vectors in the same Rn
@@ -43,7 +43,7 @@ struct vector vec_add(const struct vector *u, const struct vector *v);
 
 // vec_scalar_mult(v, c) computes the scalar product of v and c.
 // requires: v is a valid vector
-struct vector vec_scalar_mult(const struct vector *v, double c);
+struct vector vec_scalar_mult(const struct vector *v, const double c);
 
 // dot_product(u, v) produces the dot product of u and v.
 // requires: u and v are valid vectors in the same Rn
