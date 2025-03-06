@@ -5,19 +5,19 @@
 
 #include <stdbool.h>
 
-extern const int max_height;
-extern const int max_width;
+extern const int max_rows;
+extern const int max_cols;
 extern const int max_table_len;
 
 struct vector;
 
 struct matrix {
-  int height;
-  int width;
+  int num_rows;
+  int num_cols;
   double table[10000];
 };
-// requires: 0 <= height <= max_height
-//           0 <= width <= max_width
+// requires: 0 <= num_rows <= max_rows
+//           0 <= num_cols <= max_cols
 
 // is_mat_valid(A) produces true if A is a valid matrix and false otherwise.
 bool is_mat_valid(const struct matrix *A);
@@ -48,6 +48,7 @@ struct matrix mat_smult(const struct matrix *A, const double c);
 // mat_vec_mult(A, v) produces the matrix-vector product of A and v.
 // requires: A is a valid matrix
 //           v is a valid vector
+//           the width of A is equal to the dimension of v
 struct matrix mat_vec_mult(const struct matrix *A, const struct vector *v);
 
 // mat_mult(A, B) produces the product of A and B.
