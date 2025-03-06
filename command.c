@@ -163,6 +163,27 @@ bool exec_vang(void) {
   return true;
 }
 
+bool exec_veq(void) {
+  struct vector u = {0, {0}, VEC1};
+  struct vector v = {0, {0}, VEC2};
+
+  printf("Let %s and %s be vectors in Rn.\n", u.name, v.name);
+  printf("We want to check if %s equals %s.\n\n", u.name, v.name);
+
+  struct vector *v_arr[] = {&u, &v};
+  if (!read_vec(v_arr, 2)) {
+    return false;
+  }
+
+  printf("By comparing each vector component, ");
+  if (equal_vec(&u, &v)) {
+    printf("%s equals %s.\n", u.name, v.name);
+  } else {
+    printf("%s does not equal %s.\n", u.name, v.name);
+  }
+  return true;
+}
+
 bool exec_projv(void) {
   struct vector u = {0, {0}, VEC1};
   struct vector v = {0, {0}, VEC2};

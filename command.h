@@ -31,6 +31,10 @@ bool exec_vlen(void);
 // effects: reads input, produces output
 bool exec_vang(void);
 
+// exec_veq() determines if two vectors are equal.
+// effects: reads input, produces output
+bool exec_veq(void);
+
 // exec_projv() finds the projection of a vector onto another vector.
 // effects: reads input, produces output
 bool exec_projv(void);
