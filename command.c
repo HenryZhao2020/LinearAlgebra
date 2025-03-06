@@ -5,9 +5,14 @@
 
 #include <stdio.h>
 
+static char *DEFAULT_VEC = "v";
+static char *VEC1 = "u";
+static char *VEC2 = "v";
+static char *NORMAL_VEC = "n";
+
 bool exec_vadd(void) {
-  struct vector u = {0, {0}, "u"};
-  struct vector v = {0, {0}, "v"};
+  struct vector u = {0, {0}, VEC1};
+  struct vector v = {0, {0}, VEC2};
 
   printf("Let %s and %s be vectors in Rn.\n", u.name, v.name);
   printf("We want to evaluate %s + %s\n\n", u.name, v.name);  
@@ -31,7 +36,7 @@ bool exec_vadd(void) {
 }
 
 bool exec_vsmult(void) {
-  struct vector v = {0, {0}, "v"};
+  struct vector v = {0, {0}, DEFAULT_VEC};
 
   printf("Let %s be a vector in Rn.\n", v.name);
   printf("Let c be a real number.\n");
@@ -62,8 +67,8 @@ bool exec_vsmult(void) {
 }
 
 bool exec_dot(void) {
-  struct vector u = {0, {0}, "u"};
-  struct vector v = {0, {0}, "v"};
+  struct vector u = {0, {0}, VEC1};
+  struct vector v = {0, {0}, VEC2};
 
   printf("Let %s and %s be vectors in Rn.\n", u.name, v.name);
   printf("We want to evaluate the dot product %s · %s\n\n", u.name, v.name);  
@@ -89,8 +94,8 @@ bool exec_dot(void) {
 }
 
 bool exec_cross(void) {
-  struct vector u = {3, {0}, "u"};
-  struct vector v = {3, {0}, "v"};
+  struct vector u = {3, {0}, VEC1};
+  struct vector v = {3, {0}, VEC2};
 
   printf("Let %s and %s be vectors in R3.\n", u.name, v.name);
   printf("We want to evaluate %s x %s\n\n", u.name, v.name);  
@@ -118,7 +123,7 @@ bool exec_cross(void) {
 }
 
 bool exec_vlen(void) {
-  struct vector v = {0, {0}, "v"};
+  struct vector v = {0, {0}, DEFAULT_VEC};
 
   printf("Let %s be a vector in Rn.\n", v.name);
   printf("We want to determine the length (norm) of v.\n\n");
@@ -136,8 +141,8 @@ bool exec_vlen(void) {
 }
 
 bool exec_vang(void) {
-  struct vector u = {0, {0}, "u"};
-  struct vector v = {0, {0}, "v"};
+  struct vector u = {0, {0}, VEC1};
+  struct vector v = {0, {0}, VEC2};
 
   printf("Let %s and %s be vectors in Rn.\n", u.name, v.name);
   printf("We want to determine the angle (θ) between %s and %s, "
@@ -159,8 +164,8 @@ bool exec_vang(void) {
 }
 
 bool exec_projv(void) {
-  struct vector u = {0, {0}, "u"};
-  struct vector v = {0, {0}, "v"};
+  struct vector u = {0, {0}, VEC1};
+  struct vector v = {0, {0}, VEC2};
 
   printf("Let %s and %s be vectors in Rn.\n", u.name, v.name);
   printf("We want to find the projection of %s onto %s.\n\n",
@@ -182,8 +187,8 @@ bool exec_projv(void) {
 }
 
 bool exec_perpv(void) {
-  struct vector u = {0, {0}, "u"};
-  struct vector v = {0, {0}, "v"};
+  struct vector u = {0, {0}, VEC1};
+  struct vector v = {0, {0}, VEC2};
 
   printf("Let %s and %s be vectors in Rn.\n", u.name, v.name);
   printf("We want to find the perpendicular of %s onto %s.\n\n",
@@ -205,22 +210,22 @@ bool exec_perpv(void) {
 }
 
 bool exec_projp(void) {
-  struct vector x = {3, {0}, "x"};
-  struct vector n = {3, {0}, "n"};
+  struct vector v = {3, {0}, DEFAULT_VEC};
+  struct vector n = {3, {0}, NORMAL_VEC};
 
-  printf("Let %s and %s be vectors in R3.\n", x.name, n.name);
-  printf("We want to find the projection of %s onto a plane,\n", x.name);
+  printf("Let %s and %s be vectors in R3.\n", v.name, n.name);
+  printf("We want to find the projection of %s onto a plane,\n", v.name);
   printf("where the plane has a normal vector %s.\n\n", n.name);
 
-  read_vec_comp(&x, 3);
+  read_vec_comp(&v, 3);
   printf("\n");
   read_vec_comp(&n, 3);
   printf("\n");
 
   printf("projP(%s) = %s - [(%s · %s) / ||%s||²] %s\n\n", 
-         x.name, x.name, x.name, n.name, n.name, n.name);
+         v.name, v.name, v.name, n.name, n.name, n.name);
 
-  const struct vector proj = projp(&x, &n);
+  const struct vector proj = projp(&v, &n);
   printf("The projection of x onto the plane is:\n");
   print_vec(&proj, true);
 
@@ -228,22 +233,22 @@ bool exec_projp(void) {
 }
 
 bool exec_perpp(void) {
-  struct vector x = {3, {0}, "x"};
-  struct vector n = {3, {0}, "n"};
+  struct vector v = {3, {0}, DEFAULT_VEC};
+  struct vector n = {3, {0}, NORMAL_VEC};
 
-  printf("Let %s and %s be vectors in R3.\n", x.name, n.name);
-  printf("We want to find the perpendicular of %s onto a plane,\n", x.name);
+  printf("Let %s and %s be vectors in R3.\n", v.name, n.name);
+  printf("We want to find the perpendicular of %s onto a plane,\n", v.name);
   printf("where the plane has a normal vector %s.\n\n", n.name);
 
-  read_vec_comp(&x, 3);
+  read_vec_comp(&v, 3);
   printf("\n");
   read_vec_comp(&n, 3);
   printf("\n");
 
   printf("perpP(%s) = [(%s · %s) / ||%s||²] %s\n\n", 
-         x.name, x.name, n.name, n.name, n.name);
+         v.name, v.name, n.name, n.name, n.name);
 
-  const struct vector perp = perpp(&x, &n);
+  const struct vector perp = perpp(&v, &n);
   printf("The perpendicular of x onto the plane is:\n");
   print_vec(&perp, true);
 
