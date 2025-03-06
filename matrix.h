@@ -5,19 +5,19 @@
 
 #include <stdbool.h>
 
-extern const int max_rows;
-extern const int max_cols;
-extern const int max_table_len;
+extern const int max_mat_m;
+extern const int max_mat_n;
+extern const int max_mat_len;
 
 struct vector;
 
 struct matrix {
-  int num_rows;
-  int num_cols;
+  int m;    // Number of rows
+  int n;    // Number of columns
   double table[10000];
 };
-// requires: 0 <= num_rows <= max_rows
-//           0 <= num_cols <= max_cols
+// requires: 0 <= m <= max_mat_m
+//           0 <= n <= max_mat_n
 
 // is_mat_valid(A) produces true if A is a valid matrix and false otherwise.
 bool is_mat_valid(const struct matrix *A);
