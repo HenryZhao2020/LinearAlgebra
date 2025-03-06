@@ -56,4 +56,12 @@ struct matrix mat_vec_mult(const struct matrix *A, const struct vector *v);
 //           the width of A is equal to the height of B
 struct matrix mat_mult(const struct matrix *A, const struct matrix *B);
 
+// mat_transpose(A) produces the transpose of A.
+// requires: A is a valid matrix
+struct matrix mat_transpose(const struct matrix *A);
+
+// mat_identity(A) produces the identity matrix of A.
+// requires: A is a valid square matrix
+struct matrix mat_identity(const struct matrix *A);
+
 #endif
