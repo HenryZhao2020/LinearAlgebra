@@ -8,13 +8,15 @@
 extern const int max_mat_m;
 extern const int max_mat_n;
 extern const int max_mat_len;
+extern const char *default_mat_name;
 
 struct vector;
 
 struct matrix {
   int m;    // Number of rows
   int n;    // Number of columns
-  double table[10000];
+  double entries[10000];
+  const char *name;
 };
 // requires: 0 <= m <= max_mat_m
 //           0 <= n <= max_mat_n
