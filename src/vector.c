@@ -7,6 +7,7 @@
 #include <assert.h>
 
 const int max_vec_n = 100;
+const char *default_vec_name = "v";
 
 bool is_vec_valid(const struct vector *v) {
   return v && 
@@ -24,17 +25,13 @@ bool is_vec_zero(const struct vector *v) {
   return true;
 }
 
-void print_vec(const struct vector *v, const bool tab) {
+void print_vec(const struct vector *v) {
   assert(is_vec_valid(v));
 
   int lens[100] = {0};
   const int max_len = maxlen(v->comp, lens, max_vec_n);
 
   for (int i = 0; i < v->n; ++i) {
-    if (tab) {
-      printf("\t");
-    }
-
     const int space = max_len - lens[i];
     printf("|");
     print_space(space / 2);
@@ -72,7 +69,7 @@ struct vector vec_add(const struct vector *u, const struct vector *v) {
   assert(is_vec_valid(v));
   assert(u->n == v->n);
 
-  struct vector sum = {u->n, {0}};
+  struct vector sum = {u->n, {0}, default_vec_name};
   for (int i = 0; i < u->n; ++i) {
     sum.comp[i] = u->comp[i] + v->comp[i];
   }
@@ -82,7 +79,7 @@ struct vector vec_add(const struct vector *u, const struct vector *v) {
 struct vector vec_scalar_mult(const struct vector *v, const double c) {
   assert(is_vec_valid(v));
 
-  struct vector prod = {v->n, {0}};
+  struct vector prod = {v->n, {0}, default_vec_name};
   for (int i = 0; i < prod.n; ++i) {
     prod.comp[i] = c * v->comp[i];
   }
@@ -106,11 +103,11 @@ struct vector cross_product(const struct vector *u, const struct vector *v) {
   assert(is_vec_valid(v));
   assert(u->n == 3 && v->n == 3);
 
-  const struct vector cp = {3, {
-    vec_at(u, 2) * vec_at(v, 3) - vec_at(u, 3) * vec_at(v, 2),
-    vec_at(u, 3) * vec_at(v, 1) - vec_at(u, 1) * vec_at(v, 3),
-    vec_at(u, 1) * vec_at(v, 2) - vec_at(u, 2) * vec_at(v, 1),
-  }};
+  struct vector cp = {3, {0}, default_vec_name};
+  cp.comp[0] = vec_at(u, 2) * vec_at(v, 3) - vec_at(u, 3) * vec_at(v, 2);
+  cp.comp[1] = vec_at(u, 3) * vec_at(v, 1) - vec_at(u, 1) * vec_at(v, 3);
+  cp.comp[2] = vec_at(u, 1) * vec_at(v, 2) - vec_at(u, 2) * vec_at(v, 1);
+
   return cp;
 }
 

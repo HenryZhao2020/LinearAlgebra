@@ -5,13 +5,13 @@
 
 #include <stdbool.h>
 
-// Maximum dimension of a vector
 extern const int max_vec_n;
+extern const char *default_vec_name;
 
 struct vector {
   int n;              // Dimension in Rn
   double comp[100];   // Components of a vector
-  char *name;         // Variable name
+  const char *name;   // Variable name
 };
 // requires: 0 <= n <= max_vec_n
 
@@ -23,10 +23,9 @@ bool is_vec_valid(const struct vector *v);
 bool is_vec_zero(const struct vector *v);
 
 // print_vec(v, tab) outputs v in a column.
-//   A tab character will be printed before the column if tab is true.
 // requires: v is a valid vector
 // effects: produces output
-void print_vec(const struct vector *v, const bool tab);
+void print_vec(const struct vector *v);
 
 // equal_vec(u, v) produces true if u and v are equal and false otherwise.
 // requires: u and v are valid vectors

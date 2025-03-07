@@ -27,17 +27,13 @@ bool is_mat_zero(const struct matrix *A) {
   return true;
 }
 
-void print_mat(const struct matrix *A, const bool tab) {
+void print_mat(const struct matrix *A) {
   assert(is_mat_valid(A));
 
   int lens[10000] = {0};
   const int max_len = maxlen(A->table, lens, max_mat_len);
 
   for (int r = 0; r < A->m; ++r) {
-    if (tab) {
-      printf("\t");
-    }
-
     printf("| ");
     for (int c = 0; c < A->n; ++c) {
       const int i = r * A->n + c;

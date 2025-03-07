@@ -28,10 +28,9 @@ bool is_mat_zero(const struct matrix *A);
 
 // print_mat(A, tab) outputs A in an mxn grid, where m is the height of A,
 //   and n is the width of A.
-//   A tab character will be printed before the column if tab is true.
 // requires: A is a valid matrix
 // effects: produces output
-void print_mat(const struct matrix *A, const bool tab);
+void print_mat(const struct matrix *A);
 
 // equal_mat(A, B) produces true if A and B are equal and false otherwise.
 // requires: A and B are valid matrices
