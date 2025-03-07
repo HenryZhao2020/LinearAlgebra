@@ -48,7 +48,7 @@ static void help(const char *help_doc) {
 }
 
 int main(void) {
-  char help_doc[5001];
+  char help_doc[5001] = {0};
   if (!load_help_doc(help_doc)) {
     printf("Error opening 'help.txt'!\n");
     return FILE_READ_FAIL;
@@ -58,7 +58,7 @@ int main(void) {
   printf("Please enter 'help' to get started.\n\n\n");
   
   while (true) {
-    char cmd[11];
+    char cmd[11] = {0};
     printf("Enter command (e.g. vadd, dot): ");
     if (1 != scanf("%10s", cmd) || !strcmp(cmd, "exit")) {
       break;
