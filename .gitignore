@@ -1,4 +1,5 @@
 .vscode
-linalg.dSYM
-linalg
 .DS_Store
+*.dSYM
+linalg
+test
