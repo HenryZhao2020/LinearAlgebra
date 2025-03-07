@@ -5,14 +5,13 @@
 
 #include <stdio.h>
 
-static char *DEFAULT_VEC = "v";
-static char *VEC1 = "u";
-static char *VEC2 = "v";
-static char *NORMAL_VEC = "n";
+static const char *v1_name = "u";
+static const char *v2_name = "v";
+static const char *normal_vec = "n";
 
 bool exec_vadd(void) {
-  struct vector u = {0, {0}, VEC1};
-  struct vector v = {0, {0}, VEC2};
+  struct vector u = {0, {0}, v1_name};
+  struct vector v = {0, {0}, v2_name};
 
   printf("Let %s and %s be vectors in Rn.\n", u.name, v.name);
   printf("We want to evaluate %s + %s\n\n", u.name, v.name);  
@@ -25,18 +24,18 @@ bool exec_vadd(void) {
   const struct vector sum = vec_add(&u, &v);
   printf("Adding each component of %s and %s:\n", u.name, v.name);
   for (int i = 0; i < v.n; ++i) {
-    printf("\t%s%d + %s%d = %g\n", 
+    printf("%s%d + %s%d = %g\n", 
            u.name, (i + 1), v.name, (i + 1), sum.comp[i]);
   }
 
   printf("\nTherefore, %s + %s =\n", u.name, v.name);
-  print_vec(&sum, true);
+  print_vec(&sum);
 
   return true;
 }
 
 bool exec_vsmult(void) {
-  struct vector v = {0, {0}, DEFAULT_VEC};
+  struct vector v = {0, {0}, default_vec_name};
 
   printf("Let %s be a vector in Rn.\n", v.name);
   printf("Let c be a real number.\n");
@@ -57,18 +56,18 @@ bool exec_vsmult(void) {
   const struct vector prod = vec_scalar_mult(&v, c);
   printf("Multiplying each component of %s by c:\n", v.name);
   for (int i = 0; i < v.n; ++i) {
-    printf("\tc(%s%d) = %g\n", v.name, (i + 1), prod.comp[i]);
+    printf("c(%s%d) = %g\n", v.name, (i + 1), prod.comp[i]);
   }
   
   printf("\nTherefore, c%s =\n", v.name);
-  print_vec(&prod, true);
+  print_vec(&prod);
   
   return true;
 }
 
 bool exec_dot(void) {
-  struct vector u = {0, {0}, VEC1};
-  struct vector v = {0, {0}, VEC2};
+  struct vector u = {0, {0}, v1_name};
+  struct vector v = {0, {0}, v2_name};
 
   printf("Let %s and %s be vectors in Rn.\n", u.name, v.name);
   printf("We want to evaluate the dot product %s · %s\n\n", u.name, v.name);  
@@ -94,8 +93,8 @@ bool exec_dot(void) {
 }
 
 bool exec_cross(void) {
-  struct vector u = {3, {0}, VEC1};
-  struct vector v = {3, {0}, VEC2};
+  struct vector u = {3, {0}, v1_name};
+  struct vector v = {3, {0}, v2_name};
 
   printf("Let %s and %s be vectors in R3.\n", u.name, v.name);
   printf("We want to evaluate %s x %s\n\n", u.name, v.name);  
@@ -110,20 +109,20 @@ bool exec_cross(void) {
   const struct vector cross = cross_product(&u, &v);
   const int indices[] = {2, 3, 3, 1, 1, 2};
   for (int i = 0; i < 3; ++i) {
-    printf("\t%s%d%s%d - %s%d%s%d = %g\n", 
+    printf("%s%d%s%d - %s%d%s%d = %g\n", 
            u.name, indices[i * 2], v.name, indices[i * 2 + 1], 
            u.name, indices[i * 2 + 1], v.name, indices[i * 2], 
            cross.comp[i]);
   }
 
   printf("\nTherefore, the cross product %s x %s is:\n", u.name, v.name);
-  print_vec(&cross, true);
+  print_vec(&cross);
 
   return true;
 }
 
 bool exec_vlen(void) {
-  struct vector v = {0, {0}, DEFAULT_VEC};
+  struct vector v = {0, {0}, default_vec_name};
 
   printf("Let %s be a vector in Rn.\n", v.name);
   printf("We want to determine the length (norm) of v.\n\n");
@@ -141,8 +140,8 @@ bool exec_vlen(void) {
 }
 
 bool exec_vang(void) {
-  struct vector u = {0, {0}, VEC1};
-  struct vector v = {0, {0}, VEC2};
+  struct vector u = {0, {0}, v1_name};
+  struct vector v = {0, {0}, v2_name};
 
   printf("Let %s and %s be vectors in Rn.\n", u.name, v.name);
   printf("We want to determine the angle (θ) between %s and %s, "
@@ -164,8 +163,8 @@ bool exec_vang(void) {
 }
 
 bool exec_veq(void) {
-  struct vector u = {0, {0}, VEC1};
-  struct vector v = {0, {0}, VEC2};
+  struct vector u = {0, {0}, v1_name};
+  struct vector v = {0, {0}, v2_name};
 
   printf("Let %s and %s be vectors in Rn.\n", u.name, v.name);
   printf("We want to check if %s equals %s.\n\n", u.name, v.name);
@@ -185,8 +184,8 @@ bool exec_veq(void) {
 }
 
 bool exec_projv(void) {
-  struct vector u = {0, {0}, VEC1};
-  struct vector v = {0, {0}, VEC2};
+  struct vector u = {0, {0}, v1_name};
+  struct vector v = {0, {0}, v2_name};
 
   printf("Let %s and %s be vectors in Rn.\n", u.name, v.name);
   printf("We want to find the projection of %s onto %s.\n\n",
@@ -202,14 +201,14 @@ bool exec_projv(void) {
 
   const struct vector proj = projv(&u, &v);
   printf("Therefore, the projection of %s onto %s is:\n", u.name, v.name);
-  print_vec(&proj, true);
+  print_vec(&proj);
 
   return true;
 }
 
 bool exec_perpv(void) {
-  struct vector u = {0, {0}, VEC1};
-  struct vector v = {0, {0}, VEC2};
+  struct vector u = {0, {0}, v1_name};
+  struct vector v = {0, {0}, v2_name};
 
   printf("Let %s and %s be vectors in Rn.\n", u.name, v.name);
   printf("We want to find the perpendicular of %s onto %s.\n\n",
@@ -225,14 +224,14 @@ bool exec_perpv(void) {
 
   const struct vector perp = perpv(&u, &v);
   printf("Therefore, the perpendicular of %s onto %s is:\n", u.name, v.name);
-  print_vec(&perp, true);
+  print_vec(&perp);
 
   return true;
 }
 
 bool exec_projp(void) {
-  struct vector v = {3, {0}, DEFAULT_VEC};
-  struct vector n = {3, {0}, NORMAL_VEC};
+  struct vector v = {3, {0}, default_vec_name};
+  struct vector n = {3, {0}, normal_vec};
 
   printf("Let %s and %s be vectors in R3.\n", v.name, n.name);
   printf("We want to find the projection of %s onto a plane,\n", v.name);
@@ -248,14 +247,14 @@ bool exec_projp(void) {
 
   const struct vector proj = projp(&v, &n);
   printf("The projection of x onto the plane is:\n");
-  print_vec(&proj, true);
+  print_vec(&proj);
 
   return true;
 }
 
 bool exec_perpp(void) {
-  struct vector v = {3, {0}, DEFAULT_VEC};
-  struct vector n = {3, {0}, NORMAL_VEC};
+  struct vector v = {3, {0}, default_vec_name};
+  struct vector n = {3, {0}, normal_vec};
 
   printf("Let %s and %s be vectors in R3.\n", v.name, n.name);
   printf("We want to find the perpendicular of %s onto a plane,\n", v.name);
@@ -271,7 +270,7 @@ bool exec_perpp(void) {
 
   const struct vector perp = perpp(&v, &n);
   printf("The perpendicular of x onto the plane is:\n");
-  print_vec(&perp, true);
+  print_vec(&perp);
 
   return true;
 }
