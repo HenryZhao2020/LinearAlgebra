@@ -11,7 +11,7 @@ extern const char *default_vec_name;
 struct vector {
   int n;              // Dimension in Rn
   double comp[100];   // Components of a vector
-  const char *name;   // Variable name
+  const char *name;
 };
 // requires: 0 <= n <= max_vec_n
 
