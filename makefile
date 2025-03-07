@@ -1,6 +1,6 @@
 # Compiler and flags
 CC = clang
-CFLAGS = -Wall -Wextra # -g -DNDEBUG
+CFLAGS = -Wall -Wextra -I./src # -g -DNDEBUG
 
 # Directories
 SRC_DIR = src
