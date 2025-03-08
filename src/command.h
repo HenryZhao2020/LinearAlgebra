@@ -7,7 +7,7 @@
 
 #include <stdbool.h>
 
-// exec_vadd() performs addition of two vectors.
+// exec_vadd() performs addition of vectors.
 // effects: reads input, produces output
 bool exec_vadd(void);
 

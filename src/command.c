@@ -4,12 +4,46 @@
 #include "proj.h"
 
 #include <stdio.h>
+#include <string.h>
 
 static const char *v1_name = "u";
 static const char *v2_name = "v";
 static const char *normal_vec = "n";
 
 bool exec_vadd(void) {
+  int total = 0;
+  if (!read_int("How many vectors would you like to add? ",
+                &total, 0, __INT_MAX__)) {
+    return false;
+  }
+
+  int vec_n = 0;
+  if (!read_int("What is the vector dimension? ", &vec_n, 1, max_vec_n)) {
+    return false;
+  }
+  printf("\n");
+
+  struct vector sum = {vec_n, {0}, default_vec_name};
+  char name[50] = {0};
+  int name_len = strlen(default_vec_name);
+  strcpy(name, default_vec_name);
+
+  for (int i = 0; i < total; ++i) {
+    name[name_len] = '0' + (i + 1);
+    
+    struct vector v = {vec_n, {0}, name};
+    if (!read_vec_comp(&v, vec_n)) {
+      return false;
+    }
+    sum = vec_add(&sum, &v);
+    printf("\n");  
+  }
+  
+  printf("The sum of the vectors is:\n");
+  print_vec(&sum);
+
+  
+#if 0
   struct vector u = {0, {0}, v1_name};
   struct vector v = {0, {0}, v2_name};
 
@@ -30,6 +64,7 @@ bool exec_vadd(void) {
 
   printf("\nTherefore, %s + %s =\n", u.name, v.name);
   print_vec(&sum);
+#endif
 
   return true;
 }
