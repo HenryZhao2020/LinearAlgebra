@@ -38,6 +38,21 @@ void print_mat(const struct matrix *A);
 // requires: A and B are valid matrices
 bool equal_mat(const struct matrix *A, const struct matrix *B);
 
+// mat_entry(A, r, c) produces the entry of A at row r and column c.
+// requires: A is a valid matrix
+//           0 < r <= the height of A
+//           0 < c <= the width of A
+double mat_entry(const struct matrix *A, const int r, const int c);
+
+// set_mat_entry(A, val, r, c) sets the entry of A at row r and column c 
+//   to val.
+// requires: A is a valid matrix
+//           0 < r <= the height of A
+//           0 < c <= the width of A
+// effects: mutates A
+void set_mat_entry(struct matrix *A, const double val, 
+                   const int r, const int c);
+
 // mat_add(A, B) produces the sum of A and B.
 // requires: A and B are valid matrices with equal width and height
 struct matrix mat_add(const struct matrix *A, const struct matrix *B);
@@ -61,8 +76,8 @@ struct matrix mat_mult(const struct matrix *A, const struct matrix *B);
 // requires: A is a valid matrix
 struct matrix mat_transpose(const struct matrix *A);
 
-// mat_identity(A) produces the identity matrix of A.
-// requires: A is a valid square matrix
-struct matrix mat_identity(const struct matrix *A);
+// mat_identity(n) produces the identity matrix of any nxn matrix.
+// requires: n >= 0
+struct matrix mat_identity(const int n);
 
 #endif

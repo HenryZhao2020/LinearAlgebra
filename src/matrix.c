@@ -41,7 +41,7 @@ void print_mat(const struct matrix *A) {
       const int space = max_len - lens[i];
       print_space(space / 2);
       print_real(A->entries[i]);
-      print_space(space / 2 + (space % 2));
+      print_space(space / 2 + (space % 2) + 1);
     }
     printf("|\n");
   }
@@ -62,6 +62,25 @@ bool equal_mat(const struct matrix *A, const struct matrix *B) {
     }
   }
   return true;
+}
+
+double mat_entry(const struct matrix *A, const int r, const int c) {
+  assert(is_mat_valid(A));
+  assert(r > 0 && r <= A->m);
+  assert(c > 0 && c <= A->n);
+
+  int index = (r - 1) * A->n + (c - 1);
+  return A->entries[index];
+}
+
+void set_mat_entry(struct matrix *A, const double val, 
+                   const int r, const int c) {
+  assert(is_mat_valid(A));
+  assert(r > 0 && r <= A->m);
+  assert(c > 0 && c <= A->n);
+
+  int index = (r - 1) * A->n + (c - 1);
+  A->entries[index] = val;
 }
 
 struct matrix mat_add(const struct matrix *A, const struct matrix *B) {
@@ -120,4 +139,14 @@ struct matrix mat_mult(const struct matrix *A, const struct matrix *B) {
     }
   }
   return prod;
+}
+
+struct matrix mat_identity(const int n) {
+  assert(n >= 0);
+
+  struct matrix I = {n, n, {0}, default_mat_name};
+  for (int i = 1; i <= n; ++i) {
+    set_mat_entry(&I, 1, i, i);
+  }
+  return I;
 }
