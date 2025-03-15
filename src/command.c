@@ -9,27 +9,30 @@
 static const char *v1_name = "u";
 static const char *v2_name = "v";
 static const char *normal_vec = "n";
+static const int max_vadd = 100;
 
 bool exec_vadd(void) {
   int total = 0;
-  if (!read_int("How many vectors would you like to add? ",
-                &total, 0, __INT_MAX__)) {
+  printf("How many vectors would you like to add? ");
+  if (!read_int_range(&total, 0, max_vadd)) {
     return false;
   }
 
   int vec_n = 0;
-  if (!read_int("What is the vector dimension? ", &vec_n, 1, max_vec_n)) {
+  printf("What is the vector dimension? ");
+  if (!read_int_range(&vec_n, 1, max_vec_n)) {
     return false;
   }
   printf("\n");
 
-  struct vector sum = {vec_n, {0}, default_vec_name};
+  
   char name[50] = {0};
   int name_len = strlen(default_vec_name);
   strcpy(name, default_vec_name);
-
+  
+  struct vector sum = {vec_n, {0}, default_vec_name};
   for (int i = 0; i < total; ++i) {
-    name[name_len] = '0' + (i + 1);
+    sprintf(name + name_len, "%d", (i + 1));
     
     struct vector v = {vec_n, {0}, name};
     if (!read_vec_comp(&v, vec_n)) {
