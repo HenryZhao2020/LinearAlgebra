@@ -4,6 +4,7 @@
 #include "printer.h"
 
 #include <stdio.h>
+#include <string.h>
 #include <assert.h>
 
 const int max_mat_m = 100;
@@ -34,13 +35,13 @@ void print_mat(const struct matrix *A) {
   int lens[10000] = {0};
   const int max_len = maxlen(A->entries, lens, max_mat_len);
 
-  for (int r = 0; r < A->m; ++r) {
+  for (int i = 0; i < A->m; ++i) {
     printf("| ");
-    for (int c = 0; c < A->n; ++c) {
-      const int i = r * A->n + c;
-      const int space = max_len - lens[i];
+    for (int j = 0; j < A->n; ++j) {
+      const int index = i * A->n + j;
+      const int space = max_len - lens[index];
       print_space(space / 2);
-      print_real(A->entries[i]);
+      print_real(A->entries[index]);
       print_space(space / 2 + (space % 2) + 1);
     }
     printf("|\n");
@@ -69,7 +70,7 @@ double mat_entry(const struct matrix *A, const int r, const int c) {
   assert(r > 0 && r <= A->m);
   assert(c > 0 && c <= A->n);
 
-  int index = (r - 1) * A->n + (c - 1);
+  const int index = (r - 1) * A->n + (c - 1);
   return A->entries[index];
 }
 
@@ -79,7 +80,7 @@ void set_mat_entry(struct matrix *A, const double val,
   assert(r > 0 && r <= A->m);
   assert(c > 0 && c <= A->n);
 
-  int index = (r - 1) * A->n + (c - 1);
+  const int index = (r - 1) * A->n + (c - 1);
   A->entries[index] = val;
 }
 
@@ -127,18 +128,38 @@ struct matrix mat_mult(const struct matrix *A, const struct matrix *B) {
   assert(A->n == B->m);
 
   struct matrix prod = {A->m, B->n, {0}, default_mat_name};
-  for (int r = 0; r < A->m; ++r) {
-    for (int c = 0; c < B->n; ++c) {
+  for (int i = 0; i < A->m; ++i) {
+    for (int j = 0; j < B->n; ++j) {
       int sum = 0;
       for (int k = 0; k < A->n; ++k) {
-        const int Ak = r * A->n + k;
-        const int Bk = k * B->n + c;
-        sum += A->entries[Ak] * B->entries[Bk];
+        const int A_ik = i * A->n + k;
+        const int B_kj = k * B->n + j;
+        sum += A->entries[A_ik] * B->entries[B_kj];
       }
-      prod.entries[r * B->n + c] = sum;
+      prod.entries[i * B->n + j] = sum;
     }
   }
   return prod;
+}
+
+struct matrix mat_transpose(const struct matrix *A) {
+  assert(A);
+
+  char At_name[101] = {0};
+  strcpy(At_name, A->name);
+  strcat(At_name, "_T");
+
+  struct matrix At = {A->m, A->n, {0}, At_name};
+  for (int i = 0; i < A->m; ++i) {
+    for (int j = 0; j < A->n; ++j) {
+      const int A_ij = mat_entry(A, i, j);
+      const int A_ji = mat_entry(A, j, i);
+      set_mat_entry(&At, A_ji, i, j);
+      set_mat_entry(&At, A_ij, j, i);
+    }
+  }
+
+  return At;
 }
 
 struct matrix mat_identity(const int n) {
