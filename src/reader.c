@@ -4,22 +4,26 @@
 #include <stdio.h>
 #include <assert.h>
 
-bool read_int(const char *prompt, int *num, int min, int max) {
-  assert(prompt);
+bool read_int(int *num) {
   assert(num);
+  return read_int_range(num, -__INT_MAX__, __INT_MAX__);
+}
+
+bool read_int_range(int *num, const int low, const int high) {
+  assert(num);
+  assert(low <= high);
 
   int valid_num = 0;
-  while (true) {
-    printf("%s", prompt);
+  do {
     if (1 != scanf("%d", &valid_num)) {
       return false;
-    } else if (valid_num >= min && valid_num <= max) {
-      *num = valid_num;
-      return true;
-    } else {
-      printf("Please enter an integer from %d to %d!\n", min, max);
+    } else if (valid_num < low || valid_num > high) {
+      printf("Please enter a number from %d to %d: ", low, high);
     }
-  }
+  } while (valid_num < low || valid_num > high);
+
+  *num = valid_num;
+  return true;
 }
 
 bool read_vec_comp(struct vector *v, const int n) {
@@ -51,7 +55,8 @@ bool read_vec(struct vector *v_arr[], const int num_v) {
   }
 
   int n = 0;
-  if (!read_int("Enter the vector dimension (n): ", &n, 0, max_vec_n)) {
+  printf("Enter the vector dimension (n): ");
+  if (!read_int_range(&n, 0, max_vec_n)) {
     return false;
   }
   printf("\n");

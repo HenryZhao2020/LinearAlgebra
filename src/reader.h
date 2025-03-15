@@ -8,12 +8,19 @@
 
 struct vector;
 
-// read_int(prompt, num, min, max) displays prompt to the terminal and 
-//   reads an integer num from min to max, inclusive.
-// requires: prompt and num are not NULL
-// effects: reads input, produces output
+// read_int(num) reads an integer num.
+// requires: num is not NULL
+// effects: reads input, may produce output
 //          may mutate num
-bool read_int(const char *prompt, int *num, int min, int max);
+bool read_int(int *num);
+
+// read_int_range(num, low, high) keeps reading an integer num until
+//   low <= num <= high.
+// requires: num is not NULL
+//           low <= high
+// effects: reads input, may produce output
+//          may mutate num
+bool read_int_range(int *num, const int low, const int high);
 
 // read_vec_comp(v, n) prompts the components of v in Rn.
 //   The function updates v and produces true if all inputs were valid.
