@@ -1,25 +1,20 @@
 #include "command.h"
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <stdbool.h>
 #include <string.h>
 #include <assert.h>
 
 static const int FILE_READ_FAIL = 1;
 
-static const int cmd_max_len = 10;
-static const int help_doc_len = 5000;
-
-// load_help_doc(help_doc) produces true if the content of "help.txt" 
-//   is successfully loaded to help_doc and false otherwise.
-// requires: help_doc is not NULL
-// effects: may mutate help_doc
-static bool load_help_doc(char *help_doc) {
-  assert(help_doc);
-
+// load_help_doc() produces the content of "help.txt" if the file is loaded
+//   and NULL otherwise;
+// effects: allocates a heap array (caller must free)
+static char *load_help_doc() {
   FILE *file = fopen("help.txt", "r");
   if (!file) {
-    return false;
+    return NULL;
   }
 
   // Move file pointer to the end to get file size
@@ -29,11 +24,12 @@ static bool load_help_doc(char *help_doc) {
   rewind(file);  
 
   // Read entire file into memory
+  char *help_doc = malloc(file_size + 1);
   fread(help_doc, 1, file_size, file);
   help_doc[file_size] = '\0';
   fclose(file);
 
-  return true;
+  return help_doc;
 }
 
 // help(help_doc) outputs help_doc.
@@ -48,8 +44,8 @@ static void help(const char *help_doc) {
 }
 
 int main(void) {
-  char help_doc[5001] = {0};
-  if (!load_help_doc(help_doc)) {
+  char *help_doc = load_help_doc();
+  if (!help_doc) {
     printf("Error opening 'help.txt'!\n");
     return FILE_READ_FAIL;
   }
@@ -96,4 +92,5 @@ int main(void) {
   }
 
   printf("\nHope you enjoy linear algebra! See you next time.\n");
+  free(help_doc);
 }
